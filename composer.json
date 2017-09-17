@@ -1,0 +1,29 @@
+{
+    "name": "initbiz/selenium2tests",
+    "type": "october-plugin",
+    "description": "Add functionality to write tests in Selenium 2",
+    "homepage": "http://init.biz",
+    "keywords": ["october", "octobercms", "php", "selenium", "selenium 2", "testing"],
+    "license": "BSD 3-clause",
+    "authors": [
+        {
+            "name": "Tomasz Strojny",
+            "email": "tomasz@init.biz"
+        }
+    ],
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "modelizer/selenium": "^1.2",
+        "phpunit/phpunit-selenium": "^3.0",
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InitBiz\\Selenium2Tests\\Classes\\":"classes/"
+        },
+        "files": [
+            "traits/DataProviders.php"
+        ]
+    },
+    "minimum-stability": "dev"
+}
