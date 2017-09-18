@@ -20,17 +20,13 @@ In order to configure different database for testing purposes create directory `
 After that if you use `APP_ENV=testing` in your `.env` file, configuration from `testing` directory will be used.
 
 ## Writing tests in Selenium 2
-There are example tests in `tests/functional` directory. `Modelizer/selenium-laravel` is used here, so methods in its API should work fine:
+There are example tests in `tests/functional` directory. `Modelizer/Laravel-Selenium` is used here, so methods in its API should work fine:
 
 https://github.com/Modelizer/Laravel-Selenium/wiki/APIs
 
 ## Running tests
-First of all, you have to run Selenium 2 server. It is included in the package so you do not have to worry about it. You have to have Java installed on the local machine.
+First of all, you have to run Selenium 2 server. It is included in the package so you do not have to worry about it. You have to have Java installed on the local machine. In order to do that change directory to `<project_root>/plugins/initbiz/selenium2tests` and run `java -jar selenium.jar`.
 
-Change directory to `<project_root>/plugins/initbiz/selenium2tests` and run
-
-``` java -jar selenium.jar ```
-
-After you change directory to <project_root>/plugins/initbiz/selenium2tests you can run `vendor/bin/phpunit` which will run all tests in `tests` directory.
+After you change directory to `<project_root>/plugins/initbiz/selenium2tests` you can run `vendor/bin/phpunit` which will run all tests in `tests` directory.
 
 `.gitignore` of the plugin will exclude all from `/tests` except from those in `/tests/examples`.
