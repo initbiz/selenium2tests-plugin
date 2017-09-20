@@ -1,7 +1,9 @@
 # Selenium2Tests plugin
 
 ## Introduction
-The plugin was introduced to help people with writing tests based on Selenium 2.
+So you want to write tests in OctoberCMS using Selenium 2?
+
+Using the `Ui2TestCase` class from this plugin this should be much easier. What is more you do not have to download Selenium bin, since it is included in the package.
 
 ## How-to
 ### Installation
@@ -29,3 +31,6 @@ First of all, you have to run Selenium 2 server. It is included in the package. 
 You are ready to run tests using PHPUnit from OctoberCMS's `vendor/bin/phpunit`.
 
 You can keep test files wherever you want, but `.gitignore` of the plugin will exclude all files from `/tests` except those in `/tests/examples`.
+
+## "`must be an instance of Exception, instance of Error given`"
+The problem is with old version `phpunit` and `phpunit-selenium` extensions using by OctoberCMS. If you want to get nice error messages you have to update it in `composer.json` `require-dev` section. It can be the newest one, so you can just change the `~` with `>` in `phpunit` and `phpunit-selenium`.
