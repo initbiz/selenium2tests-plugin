@@ -16,7 +16,7 @@ trait CustomDataProviders
             'email' => $faker->email,
             'phone_no' => $faker->phoneNumber,
             'password' => $faker->password,
-            'tax_number' => $faker->vat,
+            'tax_number' => '8661682839',
             'thoroughfare' => $faker->streetName,
             'premise' => $faker->buildingNumber,
             'postal_code' => $faker->postcode,
