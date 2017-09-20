@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Trait with Selenium 2 helper methods based on Modeliser/Laravel-Selenium
+ * Trait with Selenium 2 helper methods
+ * Most of methods here are based on Modeliser/Laravel-Selenium
  */
 trait SeleniumHelpers
 {
@@ -163,7 +164,7 @@ trait SeleniumHelpers
       * @param $value
       * @param null $xpath
       *
-      * @throws CannotFindElement
+      * @throws Exception
       *
       * @return \PHPUnit_Extensions_Selenium2TestCase_Element
       */
@@ -188,5 +189,65 @@ trait SeleniumHelpers
         } catch (\Exception $e) {
         }
         throw new \Exception('Cannot find element: '.$value.' isn\'t visible on the page');
+    }
+
+    /**
+     *  Method waiting for element to be visible on page
+     *  It is changed version of method from UiTestCase from OctoberCMS
+      *
+      * @param $target
+      * @param 60 $timeout
+      *
+      * @throws Exception
+      *
+      * @return $this
+     */
+    protected function waitForElementPresent($target, $timeout = 60)
+    {
+        for ($second = 0; ; $second++) {
+            if ($second >= $timeout) {
+                $this->fail('timeout');
+            }
+
+            try {
+                if ($this->isElementPresent($target)) {
+                    break;
+                }
+            } catch (Exception $e) {
+            }
+
+            sleep(1);
+        }
+        return $this;
+    }
+
+    /**
+     *  Method waiting for element to hide from page
+     *  It is changed version of method from UiTestCase from OctoberCMS
+      *
+      * @param $target
+      * @param 60 $timeout
+      *
+      * @throws Exception
+      *
+      * @return $this
+     */
+    protected function waitForElementNotPresent($target, $timeout = 60)
+    {
+        for ($second = 0; ; $second++) {
+            if ($second >= $timeout) {
+                $this->fail('timeout');
+            }
+
+            try {
+                if (!$this->isElementPresent($target)) {
+                    break;
+                }
+            } catch (Exception $e) {
+            }
+
+            sleep(1);
+        }
+        return $this;
     }
 }
