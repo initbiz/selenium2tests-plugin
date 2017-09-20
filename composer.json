@@ -11,9 +11,6 @@
             "email": "tomasz@init.biz"
         }
     ],
-    "require-dev": {
-        "modelizer/selenium": "~1.0"
-    },
     "autoload": {
         "classmap": [
             "./classes"
@@ -24,8 +21,4 @@
             "./traits/SeleniumHelpers.php"
         ]
     },
-    "require" : {
-        "phpunit/phpunit": ">4.0",
-        "phpunit/phpunit-selenium": ">1.2"
-    }
 }
