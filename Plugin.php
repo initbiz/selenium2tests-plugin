@@ -1,4 +1,4 @@
-<?php namespace InitBiz\Selenium2tests;
+<?php namespace Initbiz\Selenium2tests;
 
 use System\Classes\PluginBase;
 

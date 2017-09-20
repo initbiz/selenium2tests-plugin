@@ -1,4 +1,4 @@
-<?php namespace InitBiz\Selenium2tests\Classes;
+<?php namespace Initbiz\Selenium2tests\Classes;
 
 use PHPUnit_Extensions_Selenium2TestCase;
 use SeleniumHelpers;

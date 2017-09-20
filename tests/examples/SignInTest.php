@@ -1,6 +1,6 @@
 <?php
 
-use InitBiz\Selenium2tests\Classes\Ui2TestCase;
+use Initbiz\Selenium2tests\Classes\Ui2TestCase;
 
 class SignInTest extends Ui2TestCase
 {
