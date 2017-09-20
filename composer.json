@@ -20,5 +20,5 @@
             "./traits/OctoberSeleniumHelpers.php",
             "./traits/SeleniumHelpers.php"
         ]
-    },
+    }
 }
