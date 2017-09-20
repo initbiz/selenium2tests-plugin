@@ -1,15 +1,18 @@
-<?php namespace InitBiz\Selenium2Tests\Classes;
+<?php namespace InitBiz\Selenium2tests\Classes;
 
-use Modelizer\Selenium\SeleniumTestCase as ModelizerSeleniumTestCase;
-use Lang;
+use PHPUnit_Extensions_Selenium2TestCase;
+use SeleniumHelpers;
+use OctoberSeleniumHelpers;
 
-class SeleniumTestCase extends ModelizerSeleniumTestCase
+class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
+    use SeleniumHelpers;
+    use OctoberSeleniumHelpers;
+
     protected $baseUrl;
 
     protected function setUp()
     {
-
         /*
          * Look for selenium configuration
          */
@@ -33,30 +36,5 @@ class SeleniumTestCase extends ModelizerSeleniumTestCase
         if (defined('TEST_SELENIUM_PORT')) {
             $this->setPort(TEST_SELENIUM_PORT);
         }
-    }
-
-    /**
-     * Check a checkbox on the page that has name.
-     *
-     * @param $name
-     *
-     * @return $this
-     */
-    protected function check($name)
-    {
-        $this->findElement($name)->click();
-        return $this;
-    }
-
-    //
-    // OctoberCMS Helpers
-    //
-
-    protected function signInToBackend()
-    {
-        return $this->visit(TEST_SELENIUM_BACKEND_URL)
-             ->type(TEST_SELENIUM_USER, 'login')
-             ->type(TEST_SELENIUM_PASS, 'password')
-             ->press('Zaloguj');
     }
 }

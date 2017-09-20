@@ -1,10 +1,9 @@
 <?php
 
-use InitBiz\Selenium2Tests\Classes\SeleniumTestCase;
+use InitBiz\Selenium2tests\Classes\Ui2TestCase;
 
-class SignInTest extends SeleniumTestCase
+class SignInTest extends Ui2TestCase
 {
-    use SignIn;
     /**
       * @test *
       * @return void

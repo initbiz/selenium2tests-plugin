@@ -1,5 +1,5 @@
 {
-    "name": "initbiz/selenium2tests",
+    "name": "InitBiz/Selenium2tests",
     "type": "october-plugin",
     "description": "Add functionality to write tests in Selenium 2",
     "homepage": "http://init.biz",
@@ -12,18 +12,20 @@
         }
     ],
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "modelizer/selenium": "^1.2",
-        "phpunit/phpunit-selenium": "^3.0",
-        "phpunit/phpunit": "^5.7"
+        "modelizer/selenium": "~1.0"
     },
-    "autoload-dev": {
-        "psr-4": {
-            "InitBiz\\Selenium2Tests\\Classes\\":"classes/"
-        },
+    "autoload": {
+        "classmap": [
+            "./classes"
+        ],
         "files": [
-            "traits/DataProviders.php"
+            "./traits/CustomDataProviders.php",
+            "./traits/OctoberSeleniumHelpers.php",
+            "./traits/SeleniumHelpers.php"
         ]
     },
-    "minimum-stability": "dev"
+    "require" : {
+        "phpunit/phpunit": ">4.0",
+        "phpunit/phpunit-selenium": ">1.2"
+    }
 }

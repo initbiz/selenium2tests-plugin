@@ -1,1 +1,4 @@
-1.0.1: First version of Selenium2Tests
+1.0.1:
+    - Initialize plugin.
+1.0.2:
+    - Beta, some features might not work, but hey, you can contribute :)

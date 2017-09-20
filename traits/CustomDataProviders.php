@@ -5,7 +5,7 @@ use \Faker\Factory as Faker;
 /**
  * CustomDataProviders is a trait with data providers for Testing
  */
-trait DataProviders
+trait CustomDataProviders
 {
     public function providerUserData()
     {
@@ -16,13 +16,13 @@ trait DataProviders
             'email' => $faker->email,
             'phone_no' => $faker->phoneNumber,
             'password' => $faker->password,
-            'tax_number' => "1234123423",
+            'tax_number' => $faker->vat,
             'thoroughfare' => $faker->streetName,
             'premise' => $faker->buildingNumber,
             'postal_code' => $faker->postcode,
             'city' => $faker->city,
-            'country_code' => 'PL',
-            'account_no' => $faker->iban('PL'),
+            'country_code' => $faker->countryCode,
+            'account_no' => $faker->iban($faker->countryCode),
             'terms_acceptance' => 'on',
         ];
         return [

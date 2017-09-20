@@ -1,0 +1,6 @@
+plugin:
+    name: 'initbiz.selenium2tests::lang.plugin.name'
+    description: 'initbiz.selenium2tests::lang.plugin.description'
+    author: Init.biz
+    icon: oc-icon-check
+    homepage: ''

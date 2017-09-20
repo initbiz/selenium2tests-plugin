@@ -1,8 +1,8 @@
 <?php
 
-use InitBiz\Selenium2Tests\Classes\SeleniumTestCase;
+use InitBiz\Selenium2tests\Classes\Ui2TestCase;
 
-class EnterPublicPagesTest extends SeleniumTestCase
+class EnterPublicPagesTest extends Ui2TestCase
 {
 
     /** * @test * * @return void */
@@ -14,7 +14,6 @@ class EnterPublicPagesTest extends SeleniumTestCase
 
         foreach ($publicPages as $publicPage) {
             $this->visit($publicPage)->seePageIs($publicPage);
-            //is redirected?
         }
     }
 }
