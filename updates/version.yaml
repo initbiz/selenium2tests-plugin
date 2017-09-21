@@ -2,3 +2,5 @@
     - Initialize plugin.
 1.0.2:
     - Beta, some features might not work, but hey, you can contribute :)
+1.0.3:
+    - Added Selenium 2 Helpers methods
