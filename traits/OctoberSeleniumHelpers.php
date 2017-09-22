@@ -59,15 +59,17 @@ trait OctoberSeleniumHelpers
     }
 
     /**
-     * click row in backend list containig the $uniqueValue
-     * @param  $uniqueValue what to search for in list
+     * click row in backend list containing the $uniqueValue
+     * @param  $uniqueValue what to search in list
      * @return $this
      */
     protected function clickRowInBackendList($uniqueValue)
     {
-        //TODO still not working
-        $this->findElement($uniqueValue, "//td[contains(text(),{$uniqueValue})]")->click();
-        dd("clicking row succeed");
+        $this->typeInBackendSearch($uniqueValue, true);
+        $this->hold(2); //TODO wait for ajax to reload list
+        $this->findElement("Row with: ".$uniqueValue, '//*[@id="Lists"]/div/table/tbody/tr[1]/td[2]')
+             ->click();
+        $this->hold(2);
         return $this;
     }
 
