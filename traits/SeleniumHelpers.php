@@ -347,7 +347,7 @@ trait SeleniumHelpers
     protected function clickLink($value='')
     {
         try {
-            $this->byLinkText($value)->click();
+            $this->byPartialLinkText($value)->click();
         } catch (\Exception $e) {
             throw new \Exception("Can't find a link with $value text.");
         }
