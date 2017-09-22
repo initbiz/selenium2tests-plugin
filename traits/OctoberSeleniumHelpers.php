@@ -6,6 +6,10 @@
 
 trait OctoberSeleniumHelpers
 {
+    /**
+     * Method used to sign in to OctoberCMS backend using params from selenium.php
+     * @return $this
+     */
     protected function signInToBackend()
     {
         $this->visit(TEST_SELENIUM_BACKEND_URL)
@@ -17,24 +21,12 @@ trait OctoberSeleniumHelpers
     }
 
     /**
-    * Usefull method for backend to interact
+    * Method that waits for a flash message to appear
+    * @return $this
     */
     protected function waitForFlashMessage()
     {
         return $this->waitForElementsWithClass('flash-message');
-    }
-
-    /**
-     * Check the checkbox of first row in backend list
-     * @return $this
-     */
-    protected function checkFirstRowInBackend()
-    {
-        $this->findElement("First row", "//label[@for='Lists-checkbox-1']")
-             ->click();
-        $this->hold(3);
-
-        return $this;
     }
 
     /**
