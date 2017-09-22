@@ -21,9 +21,20 @@ In order to configure different database for testing purposes create directory `
 After that if you use `APP_ENV=testing` in your `.env` file, configuration from `testing` directory will be used.
 
 ## Writing tests in Selenium 2
-There are example tests in `tests/example` directory. API methods for Selenium 2 are not documented yet, but you can find all the methods in `traits` directory of plugin.
+There are example tests in `tests/example` directory.
 
-SeleniumHelpers was based on `Modelizer/Laravel-Selenium`.
+SeleniumHelpers was mostly based on `Modelizer/Laravel-Selenium`.
+
+### Available methods for OctoberCMS:
+* `signInToBackend`
+* `waitForFlashMessage`
+* `checkFirstRowInBackend`
+* `getRecordID`
+* `clickRowInBackendList`
+* `checkRowIdInBackend`
+* `typeInBackendSearch`
+
+For more information about the methods see `traits/OctoberSeleniumHelpers.php` file.
 
 ## Running tests
 First of all, you have to run Selenium 2 server. It is included in the package. You have to have Java installed on the local machine. In order to start Selenium 2 server change directory to `<project_root>/plugins/initbiz/selenium2tests` and run `java -jar selenium.jar`.
