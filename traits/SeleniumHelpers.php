@@ -338,4 +338,19 @@ trait SeleniumHelpers
         }
         return $this;
     }
+
+    /**
+     * CLicks a link using text inside it
+     * @param  string $value Text in link
+     * @return $this
+     */
+    protected function clickLink($value='')
+    {
+        try {
+            $this->byLinkText($value)->click();
+        } catch (\Exception $e) {
+            throw new \Exception("Can't find a link with $value text.");
+        }
+        return $this;
+    }
 }
