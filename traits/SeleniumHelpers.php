@@ -353,4 +353,15 @@ trait SeleniumHelpers
         }
         return $this;
     }
+
+    /**
+     * Click the label with the value in it
+     * @param  $value substring in label to click
+     * @return $this
+     */
+    protected function clickLabel($value)
+    {
+        return $this->findElement($value, "//label[contains(., '{$value}')]")
+             ->click();
+    }
 }

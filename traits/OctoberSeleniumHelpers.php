@@ -21,6 +21,16 @@ trait OctoberSeleniumHelpers
     }
 
     /**
+     * Sign out from backend
+     * @return $this
+     */
+    protected function signOutFromBackend()
+    {
+        $this->visit(TEST_SELENIUM_BACKEND_URL.'backend/auth/signout');
+        return $this;
+    }
+
+    /**
     * Method that waits for a flash message to appear
     * @return $this
     */
