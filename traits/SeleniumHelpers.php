@@ -374,7 +374,8 @@ trait SeleniumHelpers
      */
     protected function clickLabel($value)
     {
-        return $this->findElement($value, "//label[contains(., '{$value}')]")
+        $this->findElement($value, "//label[contains(., '{$value}')]")
              ->click();
+        return $this;
     }
 }
