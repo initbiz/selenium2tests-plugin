@@ -36,5 +36,29 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (defined('TEST_SELENIUM_PORT')) {
             $this->setPort(TEST_SELENIUM_PORT);
         }
+        $this->beforeTest();
+    }
+
+
+    protected function tearDown()
+    {
+        $this->afterTest();
+        parent::tearDown();
+    }
+
+    /**
+     * Method to be overridden by children and will be started before every test
+     * @return void
+     */
+    protected function beforeTest()
+    {
+    }
+
+    /**
+     * Method to be overridden by children and will be started before parent::tearDown
+     * @return void
+     */
+    protected function afterTest()
+    {
     }
 }
