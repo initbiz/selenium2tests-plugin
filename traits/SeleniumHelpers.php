@@ -126,6 +126,7 @@ trait SeleniumHelpers
     protected function seePageIs($path)
     {
         $this->assertEquals($this->baseUrl . $path, $this->url());
+        return $this;
     }
 
     protected function hold($seconds)
@@ -189,6 +190,18 @@ trait SeleniumHelpers
         } catch (\Exception $e) {
         }
         throw new \Exception('Cannot find element: '.$value.' isn\'t visible on the page');
+    }
+
+    /**
+     * Wrapper for findElement which finds element and clicks it
+     * @param $value
+     * @param null $xpath
+     * @return $this
+     */
+    protected function findAndClickElement($value, $xpath = null)
+    {
+        $this->findElement($value, $xpath)->click();
+        return $this;
     }
 
     /**
