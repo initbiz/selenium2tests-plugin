@@ -46,13 +46,13 @@ trait OctoberSeleniumHelpers
     protected function seeFlash()
     {
         try {
-            $this->waitForElementsWithClass('flash-message');
+            $this->waitForFlashMessage();
         } catch (Exception $e) {
             throw new \Exception('Waiting for flash timed out');
         }
 
         try {
-            $this->assertTrue(!is_null($this->findElement('flash-message')));
+            $this->assertTrue(is_a($this->byCssSelector('p.flash-message'), 'PHPUnit_Extensions_Selenium2TestCase_Element'));
         } catch (Exception $e) {
             throw new \Exception('Flash is not visible');
         }
