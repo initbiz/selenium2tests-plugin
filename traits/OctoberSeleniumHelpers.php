@@ -40,6 +40,27 @@ trait OctoberSeleniumHelpers
     }
 
     /**
+    * Method that asserts that Flash message is visible
+    * @return $this
+    */
+    protected function seeFlash()
+    {
+        try {
+            $this->waitForElementsWithClass('flash-message');
+        } catch (Exception $e) {
+            throw new \Exception('Waiting for flash timed out');
+        }
+
+        try {
+            $this->assertTrue(!is_null($this->findElement('flash-message')));
+        } catch (Exception $e) {
+            throw new \Exception('Flash is not visible');
+        }
+
+        return $this;
+    }
+
+    /**
      * Get record ID from backend list using search form
      * @param   $uniqueValue unique value for searching in searchform
      * @param   $pageUrl backend page URL where the list resides
