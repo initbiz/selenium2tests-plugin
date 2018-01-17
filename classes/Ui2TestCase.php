@@ -1,13 +1,11 @@
 <?php namespace Initbiz\Selenium2tests\Classes;
 
 use PHPUnit_Extensions_Selenium2TestCase;
-use SeleniumHelpers;
-use OctoberSeleniumHelpers;
 
 class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
-    use SeleniumHelpers;
-    use OctoberSeleniumHelpers;
+    use \Initbiz\Selenium2tests\Traits\SeleniumHelpers;
+    use \Initbiz\Selenium2tests\Traits\OctoberSeleniumHelpers;
 
     protected $baseUrl;
 

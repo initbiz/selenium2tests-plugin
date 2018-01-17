@@ -1,4 +1,4 @@
-<?php
+<?php namespace Initbiz\Selenium2tests\Traits;
 
 use \Faker\Factory as Faker;
 

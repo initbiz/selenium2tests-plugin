@@ -1,4 +1,4 @@
-<?php
+<?php namespace Initbiz\Selenium2tests\Traits;
 
 /**
  * Trait with Selenium 2 helper methods
