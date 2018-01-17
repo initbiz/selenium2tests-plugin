@@ -6,3 +6,5 @@
     - Added Selenium 2 Helpers methods
 1.0.4:
     - October Selenium 2 helpers updated
+1.0.5:
+    - !!! Traits namespaced, updated Selenium standalone server
