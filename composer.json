@@ -4,25 +4,11 @@
     "description": "Add functionality to write tests in Selenium 2",
     "homepage": "http://init.biz",
     "keywords": ["october", "octobercms", "php", "selenium", "selenium 2", "testing"],
-    "license": "BSD 3-clause",
+    "license": "MIT",
     "authors": [
         {
             "name": "Tomasz Strojny",
             "email": "tomasz@init.biz"
         }
-    ],
-    "autoload": {
-        "classmap": [
-            "./classes"
-        ],
-        "files": [
-            "./traits/CustomDataProviders.php",
-            "./traits/OctoberSeleniumHelpers.php",
-            "./traits/SeleniumHelpers.php"
-        ]
-    },
-    "require": {
-        "php": ">=5.5.9",
-        "composer/installers": "~1.0"
-    }
+    ]
 }
