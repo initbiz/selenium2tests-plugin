@@ -32,11 +32,12 @@ trait OctoberSeleniumHelpers
 
     /**
     * Method that waits for a flash message to appear
-    * @return $this
+     * @param   $class class of element for waiting
+    * @return   $this
     */
-    protected function waitForFlashMessage()
+    protected function waitForFlashMessage($class = 'flash-message')
     {
-        return $this->waitForElementsWithClass('flash-message');
+        return $this->waitForElementsWithClass($class);
     }
 
     /**
