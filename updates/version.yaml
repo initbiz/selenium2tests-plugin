@@ -8,3 +8,5 @@
     - October Selenium 2 helpers updated
 1.0.5:
     - !!! Traits namespaced, updated Selenium standalone server
+1.0.6:
+    - Updated README file
