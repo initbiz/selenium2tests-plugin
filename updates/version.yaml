@@ -10,3 +10,5 @@
     - !!! Traits namespaced, updated Selenium standalone server
 1.0.6:
     - Updated README file
+1.0.7:
+    - Added timeout to waitForFlashMessage method 
