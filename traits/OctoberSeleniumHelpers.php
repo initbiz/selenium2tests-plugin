@@ -1,5 +1,7 @@
 <?php namespace Initbiz\Selenium2tests\Traits;
 
+use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
+
 /**
  * Trait with Selenium 2 helper methods for October
  */
@@ -118,6 +120,21 @@ trait OctoberSeleniumHelpers
     protected function typeInBackendSearch($value='', $clear=false)
     {
         $this->type($value, 'listToolbarSearch[term]', $clear);
+        return $this;
+    }
+
+    /**
+    * "Select" a select2 field.
+    *
+    * @param $element
+    * @param $value
+    */
+    protected function select2($element, $value)
+    {
+        $this->findAndClickElement($element);
+        $element = $this->findElement('input.select2-search__field');
+        $element->value($value.Keys::ENTER);
+
         return $this;
     }
 }
