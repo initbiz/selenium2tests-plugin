@@ -102,6 +102,7 @@ trait SeleniumHelpers
     protected function notSee($text, $tag = 'body')
     {
         $this->assertNotContains($text, $this->byTag($tag)->text());
+        return $this;
     }
 
     /**

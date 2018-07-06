@@ -14,3 +14,5 @@
     - Added timeout to waitForFlashMessage method
 1.0.8:
     - Added select2 method
+1.0.9:
+    - Fixed notSee method
