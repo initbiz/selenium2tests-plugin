@@ -194,6 +194,37 @@ trait SeleniumHelpers
     }
 
     /**
+      * Will attempt to find an elements by different patterns
+      * If xpath is provided, will attempt to find by that first.
+      *
+      * @param $value
+      * @param null $xpath
+      *
+      * @return \PHPUnit_Extensions_Selenium2TestCase_Element[]|NULL
+      */
+    protected function findElements($value, $xpath = null)
+    {
+        try {
+            if (!is_null($xpath)) {
+                return $this->elements($this->using('xpath')->value($xpath));
+            }
+        } catch (\Exception $e) {
+        }
+        try {
+            return $this->elements($this->using('id')->value($vaule));
+        } catch (\Exception $e) {
+        }
+        try {
+            return $this->elements($this->using('xpath')->value('.//*[@name="'.$value.'"]'));
+        } catch (\Exception $e) {
+        }
+        try {
+            return $this->elements($this->using('css selector')->value($value));
+        } catch (\Exception $e) {
+        }
+        return null;
+    }
+    /**
      * Wrapper for findElement which finds element and clicks it
      * @param $value
      * @param null $xpath
