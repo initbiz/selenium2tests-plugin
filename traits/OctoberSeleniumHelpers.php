@@ -131,7 +131,8 @@ trait OctoberSeleniumHelpers
     */
     protected function select2($element, $value)
     {
-        $this->findAndClickElement($element);
+        $this->findAndClickElement($element)
+             ->waitForElementsWithClass('select2-search__field', 5000);
         $element = $this->findElement('input.select2-search__field');
         $element->value($value.Keys::ENTER);
 
