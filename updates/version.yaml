@@ -16,3 +16,5 @@
     - Added select2 method
 1.0.9:
     - Fixed notSee method
+1.0.10:
+    - Added scrollToElement method 

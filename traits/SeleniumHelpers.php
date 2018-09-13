@@ -159,6 +159,7 @@ trait SeleniumHelpers
         $form->submit();
         return $this;
     }
+
     /**
       * Will attempt to find an element by different patterns
       * If xpath is provided, will attempt to find by that first.
@@ -410,4 +411,56 @@ trait SeleniumHelpers
              ->click();
         return $this;
     }
+
+    /**
+      * Will attempt to scroll to an element by different patterns.
+      * If xpath is provided, will attempt to scroll by that first.
+      * If value is name or class name, will attempt to scroll to first occurrence of the element.
+      *
+      * @param $value
+      * @param null $xpath
+      *
+      * @throws Exception
+      *
+      * @return \PHPUnit_Extensions_Selenium2TestCase_Element
+      */
+    protected function scrollToElement($value, $xpath = null)
+    {
+        try {
+            if (!is_null($xpath)) {
+                $this->execute(array(
+                    'script' => 'document.evaluate(' . $xpath . ', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.ScrollIntoView(true);',
+                    'args' => array(),
+                ));
+                return $this;
+            }
+        } catch (\Exception $e) {
+        }
+        try {
+            $this->execute(array(
+                'script' => 'document.getElementById("' . $value . '").scrollIntoView(true);',
+                'args' => array(),
+            ));
+            return $this;
+        } catch (\Exception $e) {
+        }
+        try {
+            $this->execute(array(
+                'script' => 'elements=document.getElementsByName("' . $value . '");elements[0].scrollIntoView(true);',
+                'args' => array(),
+            ));
+            return $this;
+        } catch (\Exception $e) {
+        }
+        try {
+            $this->execute(array(
+                'script' => 'elements=document.getElementsByClassName("' . $value . '");elements[0].scrollIntoView(true);',
+                'args' => array(),
+            ));
+            return $this;
+        } catch (\Exception $e) {
+        }
+        throw new \Exception('Cannot find element: '.$value.' isn\'t visible on the page');
+    }
+
 }
