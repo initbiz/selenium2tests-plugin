@@ -415,7 +415,7 @@ trait SeleniumHelpers
     /**
       * Will attempt to scroll to an element by different patterns.
       * If xpath is provided, will attempt to scroll by that first.
-      * If value is name or class name, will attempt to scroll to first occurrence of the elemenet.
+      * If value is name or class name, will attempt to scroll to first occurrence of the element.
       *
       * @param $value
       * @param null $xpath
