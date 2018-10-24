@@ -1,11 +1,13 @@
 <?php namespace Initbiz\Selenium2tests\Classes;
 
 use PHPUnit_Extensions_Selenium2TestCase;
+use Initbiz\Selenium2tests\Traits\SeleniumHelpers;
+use Initbiz\Selenium2tests\Traits\OctoberSeleniumHelpers;
 
 class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
-    use \Initbiz\Selenium2tests\Traits\SeleniumHelpers;
-    use \Initbiz\Selenium2tests\Traits\OctoberSeleniumHelpers;
+    use SeleniumHelpers;
+    use OctoberSeleniumHelpers;
 
     protected $baseUrl;
 
@@ -25,12 +27,19 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
             return $this->markTestSkipped('Selenium skipped');
         }
 
+        if (defined('TEST_SELENIUM_BROWSER')) {
+            $this->setBrowser(TEST_SELENIUM_BROWSER);
+        } else {
+            $this->setBrowser('chrome');
+        }
+
         $this->baseUrl = substr(TEST_SELENIUM_URL, 0, -1);
         $this->setBrowserUrl(TEST_SELENIUM_URL);
 
         if (defined('TEST_SELENIUM_HOST')) {
             $this->setHost(TEST_SELENIUM_HOST);
         }
+
         if (defined('TEST_SELENIUM_PORT')) {
             $this->setPort(TEST_SELENIUM_PORT);
         }

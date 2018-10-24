@@ -13,7 +13,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function check($name)
+    public function check($name)
     {
         $this->findElement($name)->click();
         return $this;
@@ -26,7 +26,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function visit($path)
+    public function visit($path)
     {
         $this->url($path);
         return $this;
@@ -39,7 +39,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function scroll($amount)
+    public function scroll($amount)
     {
         $this->execute([
             'script' => 'window.scrollBy(0, '.$amount.')',
@@ -56,7 +56,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function type($value, $name, $clear = false)
+    public function type($value, $name, $clear = false)
     {
         $element = $this->findElement($name);
         if ($clear) {
@@ -72,7 +72,7 @@ trait SeleniumHelpers
          *
          * @return $this
          */
-    protected function press($text)
+    public function press($text)
     {
         $this->findElement($text, "//button[contains(., '{$text}')]")->click();
         return $this;
@@ -87,7 +87,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function see($text, $tag = 'body')
+    public function see($text, $tag = 'body')
     {
         $this->assertContains($text, $this->byTag($tag)->text());
         return $this;
@@ -99,7 +99,7 @@ trait SeleniumHelpers
      * @param $text
      * @param string $tag
      */
-    protected function notSee($text, $tag = 'body')
+    public function notSee($text, $tag = 'body')
     {
         $this->assertNotContains($text, $this->byTag($tag)->text());
         return $this;
@@ -111,7 +111,7 @@ trait SeleniumHelpers
     * @param $element
     * @param $name
     */
-    protected function select($element, $value)
+    public function select($element, $value)
     {
         $this->findElement($element)->value($value);
         return $this;
@@ -124,13 +124,13 @@ trait SeleniumHelpers
     *
     * @return $this
     */
-    protected function seePageIs($path)
+    public function seePageIs($path)
     {
         $this->assertEquals($this->baseUrl . $path, $this->url());
         return $this;
     }
 
-    protected function hold($seconds)
+    public function hold($seconds)
     {
         sleep($seconds);
         return $this;
@@ -145,14 +145,14 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function typeInformation($information, $clear = false)
+    public function typeInformation($information, $clear = false)
     {
         foreach ($information as $element => $item) {
             $this->type($item, $element, $clear);
         }
         return $this;
     }
-    protected function submitForm($selector, $inputs, $clear = false)
+    public function submitForm($selector, $inputs, $clear = false)
     {
         $form = $this->byCssSelector($selector);
         $this->typeInformation($inputs, $clear);
@@ -171,7 +171,7 @@ trait SeleniumHelpers
       *
       * @return \PHPUnit_Extensions_Selenium2TestCase_Element
       */
-    protected function findElement($value, $xpath = null)
+    public function findElement($value, $xpath = null)
     {
         try {
             if (!is_null($xpath)) {
@@ -203,7 +203,7 @@ trait SeleniumHelpers
       *
       * @return \PHPUnit_Extensions_Selenium2TestCase_Element[]|NULL
       */
-    protected function findElements($value, $xpath = null)
+    public function findElements($value, $xpath = null)
     {
         try {
             if (!is_null($xpath)) {
@@ -231,7 +231,7 @@ trait SeleniumHelpers
      * @param null $xpath
      * @return $this
      */
-    protected function findAndClickElement($value, $xpath = null)
+    public function findAndClickElement($value, $xpath = null)
     {
         $this->findElement($value, $xpath)->click();
         return $this;
@@ -248,7 +248,7 @@ trait SeleniumHelpers
       *
       * @return $this
      */
-    protected function waitForElementPresent($target, $timeout = 60)
+    public function waitForElementPresent($target, $timeout = 60)
     {
         for ($second = 0; ; $second++) {
             if ($second >= $timeout) {
@@ -278,7 +278,7 @@ trait SeleniumHelpers
       *
       * @return $this
      */
-    protected function waitForElementNotPresent($target, $timeout = 60)
+    public function waitForElementNotPresent($target, $timeout = 60)
     {
         for ($second = 0; ; $second++) {
             if ($second >= $timeout) {
@@ -297,7 +297,7 @@ trait SeleniumHelpers
         return $this;
     }
 
-    protected $waitForTypes = ['Id', 'CssSelector', 'ClassName', 'XPath'];
+    public $waitForTypes = ['Id', 'CssSelector', 'ClassName', 'XPath'];
     /**
      * Generalized WaitsFor function to wait for a specific element with value
      * by the type passed.
@@ -308,7 +308,7 @@ trait SeleniumHelpers
      *
      * @throws \Exception
      */
-    protected function waitForElement($type, $value, $timeout)
+    public function waitForElement($type, $value, $timeout)
     {
         if (!in_array($type, $this->waitForTypes)) {
             throw new \Exception('Invalid wait for element type to wait for on the page');
@@ -334,7 +334,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function waitForElementsWithClass($class, $timeout = 2000)
+    public function waitForElementsWithClass($class, $timeout = 2000)
     {
         try {
             $this->waitForElement('ClassName', $class, $timeout);
@@ -354,7 +354,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function waitForElementWithId($id, $timeout = 2000)
+    public function waitForElementWithId($id, $timeout = 2000)
     {
         try {
             $this->waitForElement('Id', $id, $timeout);
@@ -374,7 +374,7 @@ trait SeleniumHelpers
      *
      * @return $this
      */
-    protected function waitForElementWithXPath($xpath, $timeout = 2000)
+    public function waitForElementWithXPath($xpath, $timeout = 2000)
     {
         try {
             $this->waitForElement('XPath', $xpath, $timeout);
@@ -390,7 +390,7 @@ trait SeleniumHelpers
      * @param  string $value Text in link
      * @return $this
      */
-    protected function clickLink($value='')
+    public function clickLink($value='')
     {
         try {
             $this->byPartialLinkText($value)->click();
@@ -405,7 +405,7 @@ trait SeleniumHelpers
      * @param  $value substring in label to click
      * @return $this
      */
-    protected function clickLabel($value)
+    public function clickLabel($value)
     {
         $this->findElement($value, "//label[contains(., '{$value}')]")
              ->click();
@@ -424,7 +424,7 @@ trait SeleniumHelpers
       *
       * @return \PHPUnit_Extensions_Selenium2TestCase_Element
       */
-    protected function scrollToElement($value, $xpath = null)
+    public function scrollToElement($value, $xpath = null)
     {
         try {
             if (!is_null($xpath)) {
@@ -462,5 +462,4 @@ trait SeleniumHelpers
         }
         throw new \Exception('Cannot find element: '.$value.' isn\'t visible on the page');
     }
-
 }

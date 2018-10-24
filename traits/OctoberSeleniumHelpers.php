@@ -12,7 +12,7 @@ trait OctoberSeleniumHelpers
      * Method used to sign in to OctoberCMS backend using params from selenium.php
      * @return $this
      */
-    protected function signInToBackend()
+    public function signInToBackend()
     {
         $this->visit(TEST_SELENIUM_BACKEND_URL)
              ->type(TEST_SELENIUM_USER, 'login')
@@ -26,7 +26,7 @@ trait OctoberSeleniumHelpers
      * Sign out from backend
      * @return $this
      */
-    protected function signOutFromBackend()
+    public function signOutFromBackend()
     {
         $this->visit(TEST_SELENIUM_BACKEND_URL.'backend/auth/signout');
         return $this;
@@ -37,7 +37,7 @@ trait OctoberSeleniumHelpers
      * @param   $class class of element for waiting
     * @return   $this
     */
-    protected function waitForFlashMessage($class = 'flash-message', $timeout = 2000)
+    public function waitForFlashMessage($class = 'flash-message', $timeout = 2000)
     {
         return $this->waitForElementsWithClass($class, $timeout);
     }
@@ -46,7 +46,7 @@ trait OctoberSeleniumHelpers
     * Method that asserts that Flash message is visible
     * @return $this
     */
-    protected function seeFlash()
+    public function seeFlash()
     {
         try {
             $this->waitForFlashMessage();
@@ -69,7 +69,7 @@ trait OctoberSeleniumHelpers
      * @param   $pageUrl backend page URL where the list resides
      * @return  $id record ID
      */
-    protected function getRecordID($uniqueValue, $pageUrl = '')
+    public function getRecordID($uniqueValue, $pageUrl = '')
     {
         if (!empty($pageUrl)) {
             $this->visit($pageUrl);
@@ -89,7 +89,7 @@ trait OctoberSeleniumHelpers
      * @param  $uniqueValue what to search in list
      * @return $this
      */
-    protected function clickRowInBackendList($uniqueValue)
+    public function clickRowInBackendList($uniqueValue)
     {
         $this->typeInBackendSearch($uniqueValue, true);
         $this->hold(2); //TODO wait for ajax to reload list
@@ -104,7 +104,7 @@ trait OctoberSeleniumHelpers
      * @param $id id of record
      * @return $this
      */
-    protected function checkRowIdInBackend($id)
+    public function checkRowIdInBackend($id)
     {
         $this->findElement($id, "//label[@for='Lists-checkbox-{$id}']")
              ->click();
@@ -117,7 +117,7 @@ trait OctoberSeleniumHelpers
      * @param  boolean $clear clear the searchbox or not
      * @return $this
      */
-    protected function typeInBackendSearch($value='', $clear=false)
+    public function typeInBackendSearch($value='', $clear=false)
     {
         $this->type($value, 'listToolbarSearch[term]', $clear);
         return $this;
@@ -129,7 +129,7 @@ trait OctoberSeleniumHelpers
     * @param $element
     * @param $value
     */
-    protected function select2($element, $value)
+    public function select2($element, $value)
     {
         $this->findAndClickElement($element)
              ->waitForElementsWithClass('select2-search__field', 5000);

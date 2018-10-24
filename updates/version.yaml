@@ -17,4 +17,6 @@
 1.0.9:
     - Fixed notSee method
 1.0.10:
-    - Added scrollToElement method 
+    - Added scrollToElement method
+1.0.11:
+    - Changed protected methods to public + updated Selenium standalone binary
