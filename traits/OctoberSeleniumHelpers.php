@@ -12,13 +12,21 @@ trait OctoberSeleniumHelpers
      * Method used to sign in to OctoberCMS backend using params from selenium.php
      * @return $this
      */
-    public function signInToBackend()
+    public function gotoBackend($url = "backend")
     {
-        $this->visit(TEST_SELENIUM_BACKEND_URL)
-             ->type(TEST_SELENIUM_USER, 'login')
-             ->type(TEST_SELENIUM_PASS, 'password')
-             ->findElement("Login button", "//button[@type='submit']")
-             ->click();
+        $url = $this->backendUrl . '/' . $url;
+
+        $this->visit($url);
+
+        if (strpos($this->url(), 'auth/signin')) {
+            $this->type(TEST_SELENIUM_USER, 'login')
+                 ->type(TEST_SELENIUM_PASS, 'password')
+                 ->findElement("Login button", "//button[@type='submit']")
+                 ->click();
+
+            $this->visit($url);
+        }
+
         return $this;
     }
 
@@ -28,7 +36,10 @@ trait OctoberSeleniumHelpers
      */
     public function signOutFromBackend()
     {
-        $this->visit(TEST_SELENIUM_BACKEND_URL.'backend/auth/signout');
+        $url = $this->backendUrl . '/backend/auth/signout';
+
+        $this->visit($url);
+
         return $this;
     }
 
@@ -136,6 +147,30 @@ trait OctoberSeleniumHelpers
         $element = $this->findElement('input.select2-search__field');
         $element->value($value.Keys::ENTER);
 
+        return $this;
+    }
+
+    public function checkSwitchOn($switchId)
+    {
+        $value = $this->findElement($switchId)->attribute('checked');
+        if ($value !== "true") {
+            $this->toggleSwitch($switchId);
+        }
+        return $this;
+    }
+
+    public function checkSwitchOff($switchId)
+    {
+        $value = $this->findElement($switchId)->attribute('checked');
+        if ($value === "true") {
+            $this->toggleSwitch($switchId);
+        }
+        return $this;
+    }
+
+    public function toggleSwitch($switchId)
+    {
+        $this->findAndClickElement($switchId);
         return $this;
     }
 }

@@ -9,7 +9,17 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
     use SeleniumHelpers;
     use OctoberSeleniumHelpers;
 
-    protected $baseUrl;
+    /**
+     * Base url of application like: http://url.domain
+     * @var string
+     */
+    public $baseUrl;
+
+    /**
+     * BaseUrl + backend URL set in ENV
+     * @var string
+     */
+    public $backendUrl;
 
     protected function setUp()
     {
@@ -35,6 +45,8 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->baseUrl = substr(TEST_SELENIUM_URL, 0, -1);
         $this->setBrowserUrl(TEST_SELENIUM_URL);
+
+        $this->backendUrl = $this->baseUrl . '/' . TEST_SELENIUM_BACKEND_URL;
 
         if (defined('TEST_SELENIUM_HOST')) {
             $this->setHost(TEST_SELENIUM_HOST);
