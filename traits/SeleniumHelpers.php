@@ -130,9 +130,26 @@ trait SeleniumHelpers
         return $this;
     }
 
+    /**
+     * Hold for $seconds seconds
+     * @param  int $seconds number of seconds to hold
+     * @return $this
+     */
     public function hold($seconds)
     {
         sleep($seconds);
+        return $this;
+    }
+
+    /**
+     * Hold for $milliSeconds milliseconds
+     * @param  int $milliseconds number of milliseconds to hold
+     * @return $this
+     */
+    public function mhold($milliSeconds)
+    {
+        $microSeconds = $milliSeconds * 1000;
+        usleep($microSeconds);
         return $this;
     }
 
