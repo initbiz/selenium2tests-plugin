@@ -254,6 +254,19 @@ trait SeleniumHelpers
         return $this;
     }
 
+    public function isElementPresent($target)
+    {
+        try {
+            $this->findElement($target);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        $displayed = $this->findElement($target)->displayed();
+
+        return $displayed;
+    }
+
     /**
      *  Method waiting for element to be visible on page
      *  It is changed version of method from UiTestCase from OctoberCMS
