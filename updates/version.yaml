@@ -20,3 +20,5 @@
     - Added scrollToElement method
 1.0.11:
     - Changed protected methods to public + updated Selenium standalone binary
+1.0.12:
+    - Small fixes and features.

@@ -74,8 +74,16 @@ trait SeleniumHelpers
          */
     public function press($text)
     {
-        $this->findElement($text, "//button[contains(., '{$text}')]")->click();
-        return $this;
+        try {
+            $this->findElement($text, "//button[contains(., '{$text}')]")->click();
+            return $this;
+        } catch (\Exception $e) {
+        }
+        try {
+            $this->findElement($text, "//button[@title='{$text}']")->click();
+            return $this;
+        } catch (\Exception $e) {
+        }
     }
 
     /**
@@ -282,7 +290,7 @@ trait SeleniumHelpers
     {
         for ($second = 0; ; $second++) {
             if ($second >= $timeout) {
-                $this->fail('timeout');
+                throw new \Exception('Timeout');
             }
 
             try {
@@ -312,7 +320,7 @@ trait SeleniumHelpers
     {
         for ($second = 0; ; $second++) {
             if ($second >= $timeout) {
-                $this->fail('timeout');
+                throw new \Exception('Timeout');
             }
 
             try {

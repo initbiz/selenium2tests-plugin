@@ -142,8 +142,15 @@ trait OctoberSeleniumHelpers
     */
     public function select2($element, $value)
     {
-        $this->findAndClickElement($element)
-             ->waitForElementsWithClass('select2-search__field', 5000);
+        //Sometimes select2 can't understand the click, try to click it again then
+        for ($i=0; $i < 5; $i++) {
+            try {
+                $this->findAndClickElement($element)
+                     ->waitForElementsWithClass('select2-search__field', 1);
+                break;
+            } catch (\Exception $e) {
+            }
+        }
         $element = $this->findElement('input.select2-search__field');
         $element->value($value.Keys::ENTER);
 
