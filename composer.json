@@ -1,7 +1,7 @@
 {
-    "name": "Initbiz/Selenium2tests",
+    "name": "initbiz/oc-selenium2tests-plugin",
     "type": "october-plugin",
-    "description": "Add functionality to write tests in Selenium 2",
+    "description": "Write tests in OctoberCMS using Selenium 2",
     "homepage": "http://init.biz",
     "keywords": ["october", "octobercms", "php", "selenium", "selenium 2", "testing"],
     "license": "MIT",
