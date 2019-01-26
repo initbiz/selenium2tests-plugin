@@ -9,23 +9,47 @@ use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 trait OctoberSeleniumHelpers
 {
     /**
-     * Method used to sign in to OctoberCMS backend using params from selenium.php
+     * Method used to go to OctoberCMS's backend. If not signed in, it will automatically try to sign in
      * @return $this
      */
-    public function gotoBackend($url = "backend")
+    public function gotoBackend($url = "backend", $username = '', $password = '')
     {
         $url = $this->backendUrl . '/' . $url;
 
         $this->visit($url);
 
         if (strpos($this->url(), 'auth/signin')) {
-            $this->type(TEST_SELENIUM_USER, 'login')
-                 ->type(TEST_SELENIUM_PASS, 'password')
-                 ->findElement("Login button", "//button[@type='submit']")
-                 ->click();
-
+            $this->signInToBackend($username, $password);
             $this->visit($url);
         }
+
+        return $this;
+    }
+
+    /**
+     * Sign in to backend
+     * @param  string $username overrided username
+     * @param  string $password overrided password
+     * @return $this
+     */
+    public function signInToBackend($username = '', $password = '')
+    {
+        if (!strpos($this->url(), 'auth/signin')) {
+            $this->visit($this->backendUrl.'/backend/auth/signin');
+        }
+
+        if ($username === '') {
+            $username = TEST_SELENIUM_USER;
+        }
+
+        if ($password === '') {
+            $password = TEST_SELENIUM_PASS;
+        }
+
+        $this->type($username, 'login')
+             ->type($password, 'password')
+             ->findElement("Login button", "//button[@type='submit']")
+             ->click();
 
         return $this;
     }
@@ -179,5 +203,35 @@ trait OctoberSeleniumHelpers
     {
         $this->findAndClickElement($switchId);
         return $this;
+    }
+
+    /**
+     * Navigator method to go to page by clicking the backend navigation
+     * @param  string $mainNavEntry Main navigation label
+     * @param  string $subNavEntry  Sub navigation label
+     * @return void
+     */
+    public function clickNav(string $mainNavLabel, string $sideNavLabel = '')
+    {
+        //TODO:
+    }
+
+    public function clickMainNav(string $label)
+    {
+        // Do not click the element if it's already active
+        $elementActive = true;
+        try {
+            $this->testCase->findElement('Main nav link', "//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+        } catch (\Exception $e) {
+            $elementActive = false;
+        }
+
+        if (!$elementActive) {
+            $this->testCase->findAndClickElement('Main nav link', "//li[contains(., '" . $label . "')]");
+        }
+    }
+
+    public function clickSideNav(string $label)
+    {
     }
 }
