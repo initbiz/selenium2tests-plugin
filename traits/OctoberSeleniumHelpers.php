@@ -206,32 +206,39 @@ trait OctoberSeleniumHelpers
     }
 
     /**
-     * Navigator method to go to page by clicking the backend navigation
+     * Method to go to page by clicking the backend navigation
      * @param  string $mainNavEntry Main navigation label
      * @param  string $subNavEntry  Sub navigation label
      * @return void
      */
     public function clickNav(string $mainNavLabel, string $sideNavLabel = '')
     {
-        //TODO:
+        $this->clickNavLink($mainNavLabel);
+
+        if ($sideNavLabel !== '') {
+            $this->clickNavLink($sideNavLabel);
+        }
     }
 
-    public function clickMainNav(string $label)
+    /**
+     * Clicks backend navigation link only if it is not active
+     * @param  string $label Label of nav to be clicked
+     * @return $this
+     */
+    public function clickNavLink(string $label)
     {
         // Do not click the element if it's already active
         $elementActive = true;
         try {
-            $this->testCase->findElement('Main nav link', "//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+            $this->findElement('Nav link', "//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
         } catch (\Exception $e) {
             $elementActive = false;
         }
 
         if (!$elementActive) {
-            $this->testCase->findAndClickElement('Main nav link', "//li[contains(., '" . $label . "')]");
+            $this->findAndClickElement('Nav link', "//li[contains(., '" . $label . "')]");
         }
-    }
-
-    public function clickSideNav(string $label)
-    {
+        
+        return $this;
     }
 }
