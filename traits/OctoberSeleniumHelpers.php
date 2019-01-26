@@ -51,6 +51,9 @@ trait OctoberSeleniumHelpers
              ->findElement("Login button", "//button[@type='submit']")
              ->click();
 
+        // Waiting for element that is always going to be displayed in backend after successful logging in
+        $this->waitForElementsWithClass('mainmenu-toolbar', 2000);
+
         return $this;
     }
 
@@ -238,7 +241,7 @@ trait OctoberSeleniumHelpers
         if (!$elementActive) {
             $this->findAndClickElement('Nav link', "//li[contains(., '" . $label . "')]");
         }
-        
+
         return $this;
     }
 }
