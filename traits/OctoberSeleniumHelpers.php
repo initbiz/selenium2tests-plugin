@@ -75,7 +75,7 @@ trait OctoberSeleniumHelpers
      * @param   $class class of element for waiting
     * @return   $this
     */
-    public function waitForFlashMessage($class = 'flash-message', $timeout = 2000)
+    public function waitForFlashMessage($class = 'flash-message', $timeout = 10000)
     {
         return $this->waitForElementsWithClass($class, $timeout);
     }

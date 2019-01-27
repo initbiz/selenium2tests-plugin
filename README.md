@@ -42,6 +42,15 @@ You are ready to run tests using PHPUnit from OctoberCMS's `vendor/bin/phpunit`.
 
 You can keep test files wherever you want, but `.gitignore` of the plugin will exclude all files from `/tests` except those in `/tests/examples`.
 
+### Browser in background
+If you want to run your tests so that browser will not appear on every test, run your server similar to this:
+
+```
+    DISPLAY=:1 xvfb-run -s "-screen 0 1366x768x24" java -jar plugins/initbiz/selenium2tests/selenium.jar
+```
+
+**Make sure you have xvfb and xcfb-run installed in your system.**
+
 ## Troubleshooting
 
 ### `phpunit` and `phpunit-selenium` version
