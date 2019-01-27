@@ -22,3 +22,5 @@
     - Changed protected methods to public + updated Selenium standalone binary
 1.0.12:
     - Small fixes and features.
+1.0.13:
+    - Better organized some October helpers, small doc fix and flash timeout
