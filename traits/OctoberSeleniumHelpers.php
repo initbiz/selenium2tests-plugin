@@ -219,7 +219,7 @@ trait OctoberSeleniumHelpers
         $this->clickNavLink($mainNavLabel);
 
         if ($sideNavLabel !== '') {
-            $this->clickNavLink($sideNavLabel);
+            $this->clickSideNavLink($sideNavLabel);
         }
     }
 
@@ -233,13 +233,35 @@ trait OctoberSeleniumHelpers
         // Do not click the element if it's already active
         $elementActive = true;
         try {
-            $this->findElement('Nav link', "//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+            $this->findElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
         } catch (\Exception $e) {
             $elementActive = false;
         }
 
         if (!$elementActive) {
-            $this->findAndClickElement('Nav link', "//li[contains(., '" . $label . "')]");
+            $this->findAndClickElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(., '" . $label . "')]");
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clicks backend side navigation link only if it is not active
+     * @param  string $label Label of side nav element to be clicked
+     * @return $this
+     */
+    public function clickSideNavLink(string $label)
+    {
+        // Do not click the element if it's already active
+        $elementActive = true;
+        try {
+            $this->findElement('Nav link', "//nav[@id='layout-sidenav']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+        } catch (\Exception $e) {
+            $elementActive = false;
+        }
+
+        if (!$elementActive) {
+            $this->findAndClickElement('Nav link', "//nav[@id='layout-sidenav']//li[contains(., '" . $label . "')]");
         }
 
         return $this;
