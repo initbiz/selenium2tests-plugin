@@ -28,6 +28,8 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
          */
         if (file_exists($seleniumEnv = __DIR__.'/../selenium.php')) {
             require_once $seleniumEnv;
+        } elseif (file_exists($seleniumEnv = __DIR__.'/../../../../selenium.php')) {
+            require_once $seleniumEnv;
         }
 
         /*
@@ -55,6 +57,11 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (defined('TEST_SELENIUM_PORT')) {
             $this->setPort(TEST_SELENIUM_PORT);
         }
+
+        if (defined('TEST_SELENIUM_CAPABILITIES')) {
+            $this->setDesiredCapabilities(TEST_SELENIUM_CAPABILITIES);
+        }
+
         $this->beforeTest();
     }
 
