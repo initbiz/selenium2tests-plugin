@@ -8,6 +8,8 @@ use PHPUnit_Extensions_Selenium2TestCase_Keys as Keys;
 
 trait OctoberSeleniumHelpers
 {
+    // Methods to log in and out from backend
+
     /**
      * Method used to go to OctoberCMS's backend. If not signed in, it will automatically try to sign in
      * @return $this
@@ -70,36 +72,94 @@ trait OctoberSeleniumHelpers
         return $this;
     }
 
+    // Moving around backend
+
     /**
-    * Method that waits for a flash message to appear
-     * @param   $class class of element for waiting
-    * @return   $this
-    */
-    public function waitForFlashMessage($class = 'flash-message', $timeout = 10000)
+     * Method to go to page by clicking the backend navigation
+     * @param  string $mainNavEntry Main navigation label
+     * @param  string $subNavEntry  Sub navigation label
+     * @return void
+     */
+    public function clickNav(string $mainNavLabel, string $sideNavLabel = '')
     {
-        return $this->waitForElementsWithClass($class, $timeout);
+        $this->clickNavLink($mainNavLabel);
+
+        if ($sideNavLabel !== '') {
+            if ($mainNavLabel === 'Settings') {
+                $this->clickSettingsNavLink($sideNavLabel);
+            } else {
+                $this->clickSideNavLink($sideNavLabel);
+            }
+        }
     }
 
     /**
-    * Method that asserts that Flash message is visible
-    * @return $this
-    */
-    public function seeFlash()
+     * Clicks backend navigation link only if it is not active
+     * @param  string $label Label of nav to be clicked
+     * @return $this
+     */
+    public function clickNavLink(string $label)
     {
+        // Do not click the element if it's already active
+        $elementActive = true;
         try {
-            $this->waitForFlashMessage();
-        } catch (Exception $e) {
-            throw new \Exception('Waiting for flash timed out');
+            $this->findElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+        } catch (\Exception $e) {
+            $elementActive = false;
         }
 
-        try {
-            $this->assertTrue(is_a($this->byCssSelector('p.flash-message'), 'PHPUnit_Extensions_Selenium2TestCase_Element'));
-        } catch (Exception $e) {
-            throw new \Exception('Flash is not visible');
+        if (!$elementActive) {
+            $this->findAndClickElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(., '" . $label . "')]");
         }
 
         return $this;
     }
+
+    /**
+     * Clicks backend side navigation link only if it is not active
+     * @param  string $label Label of side nav element to be clicked
+     * @return $this
+     */
+    public function clickSideNavLink(string $label)
+    {
+        // Do not click the element if it's already active
+        $elementActive = true;
+        try {
+            $this->findElement('Sidenav link', "//nav[@id='layout-sidenav']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+        } catch (\Exception $e) {
+            $elementActive = false;
+        }
+
+        if (!$elementActive) {
+            $this->findAndClickElement('Sidenav link', "//nav[@id='layout-sidenav']//li[contains(., '" . $label . "')]");
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clicks backend settings navigation link only if it is not active
+     * @param  string $label Label of settings nav element to be clicked
+     * @return $this
+     */
+    public function clickSettingsNavLink(string $label)
+    {
+        // Do not click the element if it's already active
+        $elementActive = true;
+        try {
+            $this->findElement('Settings nav link', "//ul[@class='top-level']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
+        } catch (\Exception $e) {
+            $elementActive = false;
+        }
+
+        if (!$elementActive) {
+            $this->findAndClickElement('Settings nav link', "//ul[@class='top-level']//li[contains(., '" . $label . "')]");
+        }
+
+        return $this;
+    }
+
+    // Backend lists
 
     /**
      * Get record ID from backend list using search form
@@ -161,6 +221,8 @@ trait OctoberSeleniumHelpers
         return $this;
     }
 
+    // Backend forms
+
     /**
     * "Select" a select2 field.
     *
@@ -208,60 +270,51 @@ trait OctoberSeleniumHelpers
         return $this;
     }
 
-    /**
-     * Method to go to page by clicking the backend navigation
-     * @param  string $mainNavEntry Main navigation label
-     * @param  string $subNavEntry  Sub navigation label
-     * @return void
-     */
-    public function clickNav(string $mainNavLabel, string $sideNavLabel = '')
-    {
-        $this->clickNavLink($mainNavLabel);
 
-        if ($sideNavLabel !== '') {
-            $this->clickSideNavLink($sideNavLabel);
-        }
+    public function selectRecordfinder($parentElementId, $value)
+    {
+        $recordFinderButton = $this->findElement('Record finder button', "//div[@id='". $parentElementId ."']//button");
+        $recordFinderButton->click();
+        $this->waitForElementsWithClass('close', 2000);
+
+        $searchBox = $this->findElement('.recordfinder-search');
+        $searchBox->clear();
+        $searchBox->value($value);
+
+        $this->findElement("Recordfinder row with: " . $value, '//*[@class="recordfinder-list list-flush"]//table/tbody/tr[1]/td[2]')
+             ->click();
+
+        $this->waitForElementNotPresent('.close');
+    }
+
+    // Helpers
+
+    /**
+    * Method that waits for a flash message to appear
+     * @param   $class class of element for waiting
+    * @return   $this
+    */
+    public function waitForFlashMessage($class = 'flash-message', $timeout = 10000)
+    {
+        return $this->waitForElementsWithClass($class, $timeout);
     }
 
     /**
-     * Clicks backend navigation link only if it is not active
-     * @param  string $label Label of nav to be clicked
-     * @return $this
-     */
-    public function clickNavLink(string $label)
+    * Method that asserts that Flash message is visible
+    * @return $this
+    */
+    public function seeFlash()
     {
-        // Do not click the element if it's already active
-        $elementActive = true;
         try {
-            $this->findElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
-        } catch (\Exception $e) {
-            $elementActive = false;
+            $this->waitForFlashMessage();
+        } catch (Exception $e) {
+            throw new \Exception('Waiting for flash timed out');
         }
 
-        if (!$elementActive) {
-            $this->findAndClickElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(., '" . $label . "')]");
-        }
-
-        return $this;
-    }
-
-    /**
-     * Clicks backend side navigation link only if it is not active
-     * @param  string $label Label of side nav element to be clicked
-     * @return $this
-     */
-    public function clickSideNavLink(string $label)
-    {
-        // Do not click the element if it's already active
-        $elementActive = true;
         try {
-            $this->findElement('Nav link', "//nav[@id='layout-sidenav']//li[contains(concat(' ',normalize-space(@class),' '),' active ') and contains(., '" . $label . "')]");
-        } catch (\Exception $e) {
-            $elementActive = false;
-        }
-
-        if (!$elementActive) {
-            $this->findAndClickElement('Nav link', "//nav[@id='layout-sidenav']//li[contains(., '" . $label . "')]");
+            $this->assertTrue(is_a($this->byCssSelector('p.flash-message'), 'PHPUnit_Extensions_Selenium2TestCase_Element'));
+        } catch (Exception $e) {
+            throw new \Exception('Flash is not visible');
         }
 
         return $this;
