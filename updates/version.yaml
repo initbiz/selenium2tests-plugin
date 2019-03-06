@@ -26,3 +26,5 @@
     - Better organized some October helpers, small doc fix and flash timeout
 1.0.14:
     - Added support for desired capabilities
+1.0.15:
+    - Added support for record finder

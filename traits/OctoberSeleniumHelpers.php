@@ -78,17 +78,18 @@ trait OctoberSeleniumHelpers
      * Method to go to page by clicking the backend navigation
      * @param  string $mainNavEntry Main navigation label
      * @param  string $subNavEntry  Sub navigation label
+     * @param  bool $forceClick if set to true, click even if active
      * @return void
      */
-    public function clickNav(string $mainNavLabel, string $sideNavLabel = '')
+    public function clickNav(string $mainNavLabel, string $sideNavLabel = '', bool $forceClick = false)
     {
-        $this->clickNavLink($mainNavLabel);
+        $this->clickNavLink($mainNavLabel, $forceClick);
 
         if ($sideNavLabel !== '') {
             if ($mainNavLabel === 'Settings') {
-                $this->clickSettingsNavLink($sideNavLabel);
+                $this->clickSettingsNavLink($sideNavLabel, $forceClick);
             } else {
-                $this->clickSideNavLink($sideNavLabel);
+                $this->clickSideNavLink($sideNavLabel, $forceClick);
             }
         }
     }
@@ -96,9 +97,10 @@ trait OctoberSeleniumHelpers
     /**
      * Clicks backend navigation link only if it is not active
      * @param  string $label Label of nav to be clicked
+     * @param  bool $forceClick if set to true, click even if active
      * @return $this
      */
-    public function clickNavLink(string $label)
+    public function clickNavLink(string $label, bool $forceClick = false)
     {
         // Do not click the element if it's already active
         $elementActive = true;
@@ -108,7 +110,7 @@ trait OctoberSeleniumHelpers
             $elementActive = false;
         }
 
-        if (!$elementActive) {
+        if (!$elementActive || $forceClick) {
             $this->findAndClickElement('Nav link', "//nav[@id='layout-mainmenu']//li[contains(., '" . $label . "')]");
         }
 
@@ -118,9 +120,10 @@ trait OctoberSeleniumHelpers
     /**
      * Clicks backend side navigation link only if it is not active
      * @param  string $label Label of side nav element to be clicked
+     * @param  bool $forceClick if set to true, click even if active
      * @return $this
      */
-    public function clickSideNavLink(string $label)
+    public function clickSideNavLink(string $label, bool $forceClick = false)
     {
         // Do not click the element if it's already active
         $elementActive = true;
@@ -130,7 +133,7 @@ trait OctoberSeleniumHelpers
             $elementActive = false;
         }
 
-        if (!$elementActive) {
+        if (!$elementActive || $forceClick) {
             $this->findAndClickElement('Sidenav link', "//nav[@id='layout-sidenav']//li[contains(., '" . $label . "')]");
         }
 
@@ -140,9 +143,10 @@ trait OctoberSeleniumHelpers
     /**
      * Clicks backend settings navigation link only if it is not active
      * @param  string $label Label of settings nav element to be clicked
+     * @param  bool $forceClick if set to true, click even if active
      * @return $this
      */
-    public function clickSettingsNavLink(string $label)
+    public function clickSettingsNavLink(string $label, bool $forceClick = false)
     {
         // Do not click the element if it's already active
         $elementActive = true;
@@ -152,7 +156,7 @@ trait OctoberSeleniumHelpers
             $elementActive = false;
         }
 
-        if (!$elementActive) {
+        if (!$elementActive || $forceClick) {
             $this->findAndClickElement('Settings nav link', "//ul[@class='top-level']//li[contains(., '" . $label . "')]");
         }
 
@@ -280,6 +284,8 @@ trait OctoberSeleniumHelpers
         $searchBox = $this->findElement('.recordfinder-search');
         $searchBox->clear();
         $searchBox->value($value);
+        // Wait for AJAX to complete filtering, to change to waitForElement or something
+        $this->hold(2);
 
         $this->findElement("Recordfinder row with: " . $value, '//*[@class="recordfinder-list list-flush"]//table/tbody/tr[1]/td[2]')
              ->click();
