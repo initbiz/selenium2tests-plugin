@@ -157,7 +157,7 @@ trait OctoberSeleniumHelpers
         }
 
         if (!$elementActive || $forceClick) {
-            $this->findAndClickElement('Settings nav link', "//ul[@class='top-level']//li[contains(., '" . $label . "')]");
+            $this->findAndClickElement('Settings nav link', "//ul[@class='top-level']//span[@class='header' and contains(., '" . $label . "')]");
         }
 
         return $this;
