@@ -62,7 +62,7 @@ trait SeleniumHelpers
         if ($clear) {
             $element->clear();
         }
-        $element->value($value);
+        $element->sendKeys($value);
         return $this;
     }
     /**
@@ -121,7 +121,7 @@ trait SeleniumHelpers
     */
     public function select($element, $value)
     {
-        $this->findElement($element)->value($value);
+        $this->findElement($element)->sendKeys($value);
         return $this;
     }
 
@@ -232,20 +232,20 @@ trait SeleniumHelpers
     {
         try {
             if (!is_null($xpath)) {
-                return $this->elements($this->using('xpath')->value($xpath));
+                return $this->elements($this->using('xpath')->sendKeys($xpath));
             }
         } catch (\Exception $e) {
         }
         try {
-            return $this->elements($this->using('id')->value($vaule));
+            return $this->elements($this->using('id')->sendKeys($vaule));
         } catch (\Exception $e) {
         }
         try {
-            return $this->elements($this->using('xpath')->value('.//*[@name="'.$value.'"]'));
+            return $this->elements($this->using('xpath')->sendKeys('.//*[@name="'.$value.'"]'));
         } catch (\Exception $e) {
         }
         try {
-            return $this->elements($this->using('css selector')->value($value));
+            return $this->elements($this->using('css selector')->sendKeys($value));
         } catch (\Exception $e) {
         }
         return null;
