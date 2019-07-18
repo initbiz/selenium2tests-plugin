@@ -12,11 +12,10 @@ abstract class DuskTestCase extends BaseTestCase
     // use \Initbiz\Selenium2tests\Traits\SeleniumHelpers;
     // use \Initbiz\Selenium2tests\Traits\OctoberSeleniumHelpers;
 
-    /**
-     * Base url of application like: http://url.domain
-     * @var string
-     */
     public $baseUrl;
+    public $backendUrl;
+    public $browser;
+    public $seleniumUri;
 
     /**
      * Prepare for Dusk test execution.
@@ -36,18 +35,19 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function driver()
     {
-        $options = (new ChromeOptions)->addArguments([
-            '--disable-gpu',
-            '--headless'
-        ]);
+        $this->configureSelenium();
 
-        return RemoteWebDriver::create(
-            'http://192.168.10.1:4444/wd/hub',
-            DesiredCapabilities::chrome()->setCapability(
-                ChromeOptions::CAPABILITY,
-                $options
-            )
-        );
+        if ($this->browser = "chrome") {
+            $options = (new ChromeOptions)->addArguments(TEST_SELENIUM_BROWSER_OPTIONS);
+
+            return RemoteWebDriver::create(
+                'http://' . $this->seleniumUri . '/wd/hub',
+                DesiredCapabilities::chrome()->setCapability(
+                    ChromeOptions::CAPABILITY,
+                    $options
+                )
+            );
+        }
     }
 
     public function createApplication()
@@ -87,4 +87,38 @@ abstract class DuskTestCase extends BaseTestCase
         return $app;
     }
 
+    protected function configureSelenium()
+    {
+        /*
+         * Look for selenium configuration
+         */
+        if (file_exists($seleniumEnv = __DIR__.'/../selenium.php')) {
+            require_once $seleniumEnv;
+        } elseif (file_exists($seleniumEnv = __DIR__.'/../../../../selenium.php')) {
+            require_once $seleniumEnv;
+        }
+
+        if (defined('TEST_SELENIUM_BROWSER')) {
+            $this->browser = TEST_SELENIUM_BROWSER;
+        } else {
+            $this->browser = 'chrome';
+        }
+
+        $this->baseUrl = Config::get('app.url');
+        $this->backendUrl = Config::get('cms.backendUri');
+
+        $this->seleniumUri = "";
+
+        if (defined('TEST_SELENIUM_HOST')) {
+            $this->seleniumUri .= TEST_SELENIUM_HOST;
+        } else {
+            $this->seleniumUri .= "127.0.0.1";
+        }
+
+        if (defined('TEST_SELENIUM_PORT')) {
+            $this->seleniumUri .= ":" . TEST_SELENIUM_PORT;
+        } else {
+            $this->seleniumUri .= ":4444";
+        }
+    }
 }

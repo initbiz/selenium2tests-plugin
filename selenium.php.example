@@ -4,9 +4,6 @@
 define('TEST_SELENIUM_HOST', '127.0.0.1');
 define('TEST_SELENIUM_PORT', 4444);
 
-// App URL
-define('TEST_SELENIUM_URL', 'http://localhost/');
-
 // backend URL
 define('TEST_SELENIUM_BACKEND_URL', 'backend');
 
@@ -16,3 +13,4 @@ define('TEST_SELENIUM_PASS', 'admin');
 
 // Set browser
 define('TEST_SELENIUM_BROWSER', 'chrome');
+define('TEST_SELENIUM_BROWSER_OPTIONS', ['--headless', '--window-size=1200,600']);
