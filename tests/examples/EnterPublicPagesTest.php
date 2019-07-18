@@ -1,5 +1,6 @@
 <?php
 
+use Initbiz\Selenium2tests\Classes\Browser;
 use Initbiz\Selenium2tests\Classes\Ui2TestCase;
 
 class EnterPublicPagesTest extends Ui2TestCase
@@ -13,7 +14,10 @@ class EnterPublicPagesTest extends Ui2TestCase
         ];
 
         foreach ($publicPages as $publicPage) {
-            $this->visit($publicPage)->seePageIs($publicPage);
+            $this->browse(function (Browser $browser) use ($publicPage) {
+                $browser->visit($publicPage)
+                        ->assertPathIs($publicPage);
+            });
         }
     }
 }

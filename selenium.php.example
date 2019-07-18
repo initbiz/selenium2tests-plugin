@@ -1,11 +1,8 @@
 <?php
 
 // Selenium server details
-define('TEST_SELENIUM_HOST', '127.0.0.1');
+define('TEST_SELENIUM_HOST', '192.168.10.1');
 define('TEST_SELENIUM_PORT', 4444);
-
-// backend URL
-define('TEST_SELENIUM_BACKEND_URL', 'backend');
 
 // Back-end credentials
 define('TEST_SELENIUM_USER', 'admin');
@@ -13,4 +10,4 @@ define('TEST_SELENIUM_PASS', 'admin');
 
 // Set browser
 define('TEST_SELENIUM_BROWSER', 'chrome');
-define('TEST_SELENIUM_BROWSER_OPTIONS', ['--headless', '--window-size=1200,600']);
+define('TEST_SELENIUM_BROWSER_OPTIONS', ['--window-size=1200,1000']);

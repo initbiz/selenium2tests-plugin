@@ -16,7 +16,7 @@ trait OctoberSeleniumHelpers
      */
     public function gotoBackend($url = "backend", $username = '', $password = '')
     {
-        $url = $this->backendUrl . '/' . $url;
+        $url = $this->backendUri . '/' . $url;
 
         $this->visit($url);
 
@@ -37,24 +37,24 @@ trait OctoberSeleniumHelpers
     public function signInToBackend($username = '', $password = '')
     {
         if (!strpos($this->url(), 'auth/signin')) {
-            $this->visit($this->backendUrl.'/backend/auth/signin');
+            $this->visit($this->backendUri.'/backend/auth/signin');
         }
 
         if ($username === '') {
-            $username = TEST_SELENIUM_USER;
+            $username = $this->backendAdmin['username'];
         }
 
         if ($password === '') {
-            $password = TEST_SELENIUM_PASS;
+            $password = $this->backendAdmin['password'];
         }
 
-        $this->type($username, 'login')
-             ->type($password, 'password')
+        $this->type('login', $username)
+             ->type('password', $password)
              ->findElement("Login button", "//button[@type='submit']")
              ->click();
 
         // Waiting for element that is always going to be displayed in backend after successful logging in
-        $this->waitForElementsWithClass('mainmenu-toolbar', 2000);
+        $this->waitForElementPresent('.mainmenu-toolbar');
 
         return $this;
     }
@@ -65,7 +65,7 @@ trait OctoberSeleniumHelpers
      */
     public function signOutFromBackend()
     {
-        $url = $this->backendUrl . '/backend/auth/signout';
+        $url = $this->backendUri . '/backend/auth/signout';
 
         $this->visit($url);
 
@@ -325,4 +325,5 @@ trait OctoberSeleniumHelpers
 
         return $this;
     }
+
 }

@@ -1,27 +1,77 @@
 <?php namespace Initbiz\Selenium2tests\Classes;
 
-use PHPUnit_Extensions_Selenium2TestCase;
-use Initbiz\Selenium2tests\Traits\SeleniumHelpers;
-use Initbiz\Selenium2tests\Traits\OctoberSeleniumHelpers;
+use Laravel\Dusk\TestCase as BaseTestCase;
+use Initbiz\Selenium2tests\Classes\Browser;
+use Facebook\WebDriver\Chrome\ChromeOptions;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Initbiz\Selenium2tests\Classes\ElementResolver;
 
-class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
+abstract class Ui2TestCase extends BaseTestCase
 {
-    use SeleniumHelpers;
-    use OctoberSeleniumHelpers;
-
     /**
-     * Base url of application like: http://url.domain
+     * Browser
+     *
+     * @var Browser
+     */
+    public $browser;
+    
+    /**
+     * Selenium connection URI like http://127.0.0.1:4444/wd/hub
+     *
      * @var string
      */
-    public $baseUrl;
+    protected $seleniumUri;
+    
+    /**
+     * Driver
+     *
+     * @var RemoteWebDriver
+     */
+    public $driver;
 
     /**
-     * BaseUrl + backend URL set in ENV
-     * @var string
+     * Create the RemoteWebDriver instance.
+     *
+     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
-    public $backendUrl;
+    protected function driver()
+    {
+        $this->configureSelenium();
 
-    protected function setUp()
+        if ($this->browser = "chrome") {
+            $options = (new ChromeOptions)->addArguments(TEST_SELENIUM_BROWSER_OPTIONS);
+
+            $this->driver = RemoteWebDriver::create(
+                $this->getSeleniumUri(),
+                DesiredCapabilities::chrome()->setCapability(
+                    ChromeOptions::CAPABILITY,
+                    $options
+                )
+            );
+        }
+
+        return $this->driver;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createApplication()
+    {
+        $app = require __DIR__.'/../../../../bootstrap/app.php';
+
+        $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        return $app;
+    }
+
+    /**
+     * Gets config from selenium.php file from plugin or project's root directory
+     *
+     * @return void
+     */
+    protected function configureSelenium()
     {
         /*
          * Look for selenium configuration
@@ -32,59 +82,45 @@ class Ui2TestCase extends PHPUnit_Extensions_Selenium2TestCase
             require_once $seleniumEnv;
         }
 
-        /*
-         * Configure selenium
-         */
-        if (!defined('TEST_SELENIUM_URL')) {
-            return $this->markTestSkipped('Selenium skipped');
-        }
-
         if (defined('TEST_SELENIUM_BROWSER')) {
-            $this->setBrowser(TEST_SELENIUM_BROWSER);
+            $this->browser = TEST_SELENIUM_BROWSER;
         } else {
-            $this->setBrowser('chrome');
+            $this->browser = 'chrome';
         }
 
-        $this->baseUrl = substr(TEST_SELENIUM_URL, 0, -1);
-        $this->setBrowserUrl(TEST_SELENIUM_URL);
-
-        $this->backendUrl = $this->baseUrl . '/' . TEST_SELENIUM_BACKEND_URL;
-
-        if (defined('TEST_SELENIUM_HOST')) {
-            $this->setHost(TEST_SELENIUM_HOST);
-        }
-
-        if (defined('TEST_SELENIUM_PORT')) {
-            $this->setPort(TEST_SELENIUM_PORT);
-        }
-
-        if (defined('TEST_SELENIUM_CAPABILITIES')) {
-            $this->setDesiredCapabilities(TEST_SELENIUM_CAPABILITIES);
-        }
-
-        $this->beforeTest();
-    }
-
-
-    protected function tearDown()
-    {
-        $this->afterTest();
-        parent::tearDown();
+        $this->initSeleniumUri(TEST_SELENIUM_HOST, TEST_SELENIUM_PORT);
     }
 
     /**
-     * Method to be overridden by children and will be started before every test
+     * Sets initial seleniumUri value
+     *
+     * @param string $host
+     * @param string $port
+     * @param string $suffix
+     * @param string $prefix
      * @return void
      */
-    protected function beforeTest()
+    public function initSeleniumUri(string $host = "127.0.0.1", string $port = "4444", string $suffix = "/wd/hub", string $prefix = "http://")
     {
+        $this->seleniumUri = $prefix . $host . ":" . $port . $suffix;
     }
 
     /**
-     * Method to be overridden by children and will be started before parent::tearDown
-     * @return void
+     * Getter of seleniumUri
+     *
+     * @return string
      */
-    protected function afterTest()
+    public function getSeleniumUri():string
     {
+        return $this->seleniumUri;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function newBrowser($driver)
+    {
+        $resolver = new ElementResolver($this->driver);
+        return new Browser($driver, $resolver);
     }
 }
