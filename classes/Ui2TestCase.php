@@ -9,12 +9,25 @@ use Initbiz\Selenium2tests\Classes\ElementResolver;
 
 abstract class Ui2TestCase extends BaseTestCase
 {
+    public const DEFAULT_BROWSER = 'chrome';
+
+    public const DEFAULT_HOST = '127.0.0.1';
+
+    public const DEFAULT_PORT = '4444';
+
     /**
      * Browser
      *
      * @var Browser
      */
     public $browser;
+
+    /**
+     * Browser options
+     *
+     * @var array
+     */
+    public $browserOptions;
     
     /**
      * Selenium connection URI like http://127.0.0.1:4444/wd/hub
@@ -40,7 +53,9 @@ abstract class Ui2TestCase extends BaseTestCase
         $this->configureSelenium();
 
         if ($this->browser = "chrome") {
-            $options = (new ChromeOptions)->addArguments(TEST_SELENIUM_BROWSER_OPTIONS);
+            $browserOptions = (defined('TEST_SELENIUM_BROWSER_OPTIONS')) ? TEST_SELENIUM_BROWSER_OPTIONS : [];
+
+            $options = (new ChromeOptions)->addArguments($browserOptions);
 
             $this->driver = RemoteWebDriver::create(
                 $this->getSeleniumUri(),
@@ -82,13 +97,12 @@ abstract class Ui2TestCase extends BaseTestCase
             require_once $seleniumEnv;
         }
 
-        if (defined('TEST_SELENIUM_BROWSER')) {
-            $this->browser = TEST_SELENIUM_BROWSER;
-        } else {
-            $this->browser = 'chrome';
-        }
+        $browser = (defined('TEST_SELENIUM_BROWSER')) ? TEST_SELENIUM_BROWSER : self::DEFAULT_BROWSER;
+        $host = (defined('TEST_SELENIUM_HOST')) ? TEST_SELENIUM_HOST : self::DEFAULT_HOST;
+        $port = (defined('TEST_SELENIUM_PORT')) ? TEST_SELENIUM_PORT : self::DEFAULT_PORT;
 
-        $this->initSeleniumUri(TEST_SELENIUM_HOST, TEST_SELENIUM_PORT);
+        $this->initBrowser($browser);
+        $this->initSeleniumUri($host, $port);
     }
 
     /**
@@ -100,7 +114,7 @@ abstract class Ui2TestCase extends BaseTestCase
      * @param string $prefix
      * @return void
      */
-    public function initSeleniumUri(string $host = "127.0.0.1", string $port = "4444", string $suffix = "/wd/hub", string $prefix = "http://")
+    public function initSeleniumUri(string $host = self::DEFAULT_HOST, string $port = self::DEFAULT_PORT, string $suffix = "/wd/hub", string $prefix = "http://")
     {
         $this->seleniumUri = $prefix . $host . ":" . $port . $suffix;
     }
@@ -113,6 +127,17 @@ abstract class Ui2TestCase extends BaseTestCase
     public function getSeleniumUri():string
     {
         return $this->seleniumUri;
+    }
+
+    /**
+     * Set initial browser
+     *
+     * @param string $browser
+     * @return void
+     */
+    public function initBrowser(string $browser = self::DEFAULT_BROWSER)
+    {
+        $this->browser = $browser;
     }
 
     /**
