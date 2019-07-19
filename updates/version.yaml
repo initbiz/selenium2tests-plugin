@@ -28,3 +28,6 @@
     - Added support for desired capabilities
 1.0.15:
     - Added support for record finder
+2.0.0:
+    - !!! Moved to Laravel Dusk API
+

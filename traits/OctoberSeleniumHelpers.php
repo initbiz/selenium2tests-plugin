@@ -239,7 +239,7 @@ trait OctoberSeleniumHelpers
         for ($i=0; $i < 5; $i++) {
             try {
                 $this->findAndClickElement($element)
-                     ->waitForElementsWithClass('select2-search__field', 1);
+                     ->waitFor('select2-search__field', 1);
                 break;
             } catch (\Exception $e) {
             }
@@ -279,18 +279,18 @@ trait OctoberSeleniumHelpers
     {
         $recordFinderButton = $this->findElement('Record finder button', "//div[@id='". $parentElementId ."']//button");
         $recordFinderButton->click();
-        $this->waitForElementsWithClass('close', 2000);
+        $this->waitFor('close', 2000);
 
         $searchBox = $this->findElement('.recordfinder-search');
         $searchBox->clear();
         $searchBox->value($value);
-        // Wait for AJAX to complete filtering, to change to waitForElement or something
+        // Wait for AJAX to complete filtering, to change to waitFor or something
         $this->hold(2);
 
         $this->findElement("Recordfinder row with: " . $value, '//*[@class="recordfinder-list list-flush"]//table/tbody/tr[1]/td[2]')
              ->click();
 
-        $this->waitForElementNotPresent('.close');
+        $this->waitUntilMissing('.close');
     }
 
     // Helpers
