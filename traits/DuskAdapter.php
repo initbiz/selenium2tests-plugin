@@ -17,4 +17,10 @@ trait DuskAdapter
     {
         return $this->driver->getCurrentURL();
     }
+
+    public function scroll($pixels)
+    {
+        $this->driver->executeScript('window.scrollBy(0, ' . $pixels .');'); 
+        return $this;
+    }
 }
