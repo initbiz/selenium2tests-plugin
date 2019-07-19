@@ -8,6 +8,11 @@
 
 trait DuskAdapter
 {
+    public function findAndClickElement($value, $xpath = null) {
+        $this->findElement($value, $xpath)->click();
+        return $this;
+    }
+
     public function findElement($value, $xpath = null)
     {
         return $this->resolver->find($value, $xpath);

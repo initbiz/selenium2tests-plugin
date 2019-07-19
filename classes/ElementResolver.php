@@ -9,7 +9,7 @@ class ElementResolver extends DuskElementResolver
     {
         try {
             return $this->findOrFail($selector, $xpath);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             //
         }
     }
