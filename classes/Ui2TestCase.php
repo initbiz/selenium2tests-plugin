@@ -1,5 +1,6 @@
 <?php namespace Initbiz\Selenium2tests\Classes;
 
+use Config;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Initbiz\Selenium2tests\Classes\Browser;
 use Facebook\WebDriver\Chrome\ChromeOptions;
@@ -77,6 +78,27 @@ abstract class Ui2TestCase extends BaseTestCase
         $app = require __DIR__.'/../../../../bootstrap/app.php';
 
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+
+        /*
+         * Store database in memory by default, if not specified otherwise
+         */
+        $dbConnection = 'sqlite';
+
+        $dbConnections = [];
+        $dbConnections['sqlite'] = [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => ''
+        ];
+
+        if (env('APP_ENV') === 'testing' && Config::get('database.useConfigForTesting', false)) {
+            $dbConnection = Config::get('database.default', 'sqlite');
+
+            $dbConnections[$dbConnection] = Config::get('database.connections' . $dbConnection, $dbConnections['sqlite']);
+        }
+
+        $app['config']->set('database.default', $dbConnection);
+        $app['config']->set('database.connections.' . $dbConnection, $dbConnections[$dbConnection]);
 
         return $app;
     }
