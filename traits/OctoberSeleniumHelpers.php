@@ -54,7 +54,7 @@ trait OctoberSeleniumHelpers
              ->click();
 
         // Waiting for element that is always going to be displayed in backend after successful logging in
-        $this->waitForElementPresent('.mainmenu-toolbar');
+        $this->waitFor('.mainmenu-toolbar');
 
         return $this;
     }
@@ -221,7 +221,7 @@ trait OctoberSeleniumHelpers
      */
     public function typeInBackendSearch($value='', $clear=false)
     {
-        $this->type($value, 'listToolbarSearch[term]', $clear);
+        $this->type('listToolbarSearch[term]', $value, $clear);
         return $this;
     }
 
@@ -302,7 +302,7 @@ trait OctoberSeleniumHelpers
     */
     public function waitForFlashMessage($class = 'flash-message', $timeout = 10000)
     {
-        return $this->waitForElementsWithClass($class, $timeout);
+        return $this->waitFor($class, $timeout);
     }
 
     /**
@@ -325,5 +325,4 @@ trait OctoberSeleniumHelpers
 
         return $this;
     }
-
 }
