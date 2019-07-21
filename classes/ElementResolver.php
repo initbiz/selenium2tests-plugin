@@ -23,6 +23,10 @@ class ElementResolver extends DuskElementResolver
         } catch (\Exception $e) {
         }
 
+        if (empty($selector)) {
+            $selector = $this->format($selector);
+        }
+
         try {
             return $this->driver->findElement(WebDriverBy::id($selector));
         } catch (\Exception $e) {

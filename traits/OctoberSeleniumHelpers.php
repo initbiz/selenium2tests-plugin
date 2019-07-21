@@ -238,14 +238,18 @@ trait OctoberSeleniumHelpers
         //Sometimes select2 can't understand the click, try to click it again then
         for ($i=0; $i < 5; $i++) {
             try {
-                $this->findAndClickElement($element)
-                     ->waitFor('select2-search__field', 1);
-                break;
+                $this->findAndClickElement($element);
+                // 50000 microseconds = 50 miliseconds
+                usleep(50000);
+                $input = $this->find('input.select2-search__field');
+                if (! is_null($input) && $input->isDisplayed()) {
+                    break;
+                }
             } catch (\Exception $e) {
             }
         }
         $element = $this->findElement('input.select2-search__field');
-        $element->value($value.Keys::ENTER);
+        $element->sendKeys($value.Keys::ENTER);
 
         return $this;
     }
@@ -283,7 +287,7 @@ trait OctoberSeleniumHelpers
 
         $searchBox = $this->findElement('.recordfinder-search');
         $searchBox->clear();
-        $searchBox->value($value);
+        $searchBox->sendKeys($value);
         // Wait for AJAX to complete filtering, to change to waitFor or something
         $this->hold(2);
 
