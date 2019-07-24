@@ -18,7 +18,8 @@ class ElementResolver extends DuskElementResolver
     {
         try {
             if (!is_null($xpath)) {
-                return $this->driver->findElement(WebDriverBy::xpath($xpath));
+                $element = $this->driver->findElement(WebDriverBy::xpath($xpath));
+                return $element;
             }
         } catch (\Exception $e) {
         }
@@ -44,4 +45,6 @@ class ElementResolver extends DuskElementResolver
 
         throw new \Exception('Cannot find element: '.$selector.' isn\'t visible on the page');
     }
+
+
 }

@@ -237,19 +237,17 @@ trait OctoberSeleniumHelpers
     {
         //Sometimes select2 can't understand the click, try to click it again then
         for ($i=0; $i < 5; $i++) {
-            try {
-                $this->findAndClickElement($element);
-                // 50000 microseconds = 50 miliseconds
-                usleep(50000);
-                $input = $this->find('input.select2-search__field');
-                if (! is_null($input) && $input->isDisplayed()) {
-                    break;
-                }
-            } catch (\Exception $e) {
+            $this->findAndClickElement($element);
+            // 500000 microseconds = 500 miliseconds = 0,5 second
+            usleep(500000);
+            $input = $this->findElement('input.select2-search__field');
+            if (! is_null($input) && $input->isDisplayed()) {
+                break;
             }
         }
         $element = $this->findElement('input.select2-search__field');
-        $element->sendKeys($value.Keys::ENTER);
+        $element->sendKeys($value);
+        $this->findAndClickElement('.select2-results__option.select2-results__option--highlighted');
 
         return $this;
     }

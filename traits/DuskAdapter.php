@@ -1,5 +1,7 @@
 <?php namespace Initbiz\Selenium2tests\Traits;
 
+use Facebook\WebDriver\WebDriverBy;
+
 /**
  * Trait with Selenium 2 adapter methods
  * It's created to make test written for old Selenium 2 sytax work with the Dusk syntax
@@ -29,6 +31,55 @@ trait DuskAdapter
         return $this;
     }
 
+    public function findElements($selector, $xpath = null)
+    {
+        try {
+            return $this->findElementsOrFail($selector, $xpath);
+        } catch (\Exception $e) {
+            //
+        }
+    }
+
+    /**
+      * Will attempt to find an elements by different patterns
+      * If xpath is provided, will attempt to find by that first.
+      *
+      * @param $value
+      * @param null $xpath
+      *
+      * @return \PHPUnit_Extensions_Selenium2TestCase_Element[]|NULL
+      */
+    public function findElementsOrFail($value, $xpath = null)
+    {
+        try {
+            if (!is_null($xpath)) {
+                $element = $this->driver->findElements(WebDriverBy::xpath($xpath));
+                return $element;
+            }
+        } catch (\Exception $e) {
+        }
+
+        if (empty($selector)) {
+            $selector = $this->format($selector);
+        }
+
+        try {
+            return $this->driver->findElements(WebDriverBy::id($selector));
+        } catch (\Exception $e) {
+        }
+
+        try {
+            return $this->driver->findElements(WebDriverBy::name($selector));
+        } catch (\Exception $e) {
+        }
+
+        try {
+            return $this->driver->findElements(WebDriverBy::cssSelector($selector));
+        } catch (\Exception $e) {
+        }
+
+        throw new \Exception('Cannot find elements: '.$selector.' aren\'t visible on the page');
+    }
 
     /**
       * Will attempt to scroll to an element by different patterns.
