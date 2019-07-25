@@ -1,6 +1,7 @@
 <?php namespace Initbiz\Selenium2tests\Traits;
 
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverSelect;
 
 /**
  * Trait with Selenium 2 adapter methods
@@ -118,6 +119,20 @@ trait DuskAdapter
         } catch (\Exception $e) {
         }
         throw new \Exception('Cannot find element: '.$value.' isn\'t visible on the page');
+    }
+
+    /**
+    * "Select" a drop-down field.
+    *
+    * @param $element
+    * @param $text - option text to select
+    */
+    public function selectOption($element, $text)
+    {
+        $select = new WebDriverSelect($this->findElement($element));
+        $select->selectByVisibleText($text);
+        
+        return $this;
     }
 
     /**
