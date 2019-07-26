@@ -10,8 +10,5 @@
             "name": "Tomasz Strojny",
             "email": "tomasz@init.biz"
         }
-    ],
-    "require": {
-        "laravel/dusk": "^2.0"
-    }
+    ]
 }

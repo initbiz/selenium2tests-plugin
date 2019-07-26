@@ -19,10 +19,11 @@ Using the `Ui2TestCase` class from this plugin this should be much easier. What 
 > You probably will have to link newer version of Java to your default path as described [here](https://stackoverflow.com/a/14875241)
 
 ### Installation
-1. Install plugin:
+1. You can use three methods to install the plugin:
   1. from [OctoberCMS Marketplace](https://octobercms.com/plugin/initbiz-selenium2tests),
   1. clone the code from GitHub into `/plugins/initbiz/selenium2tests` directory or
-  1. install using Composer `composer require initbiz/oc-selenium2tests-plugin`
+  1. install using Composer `composer require --dev initbiz/oc-selenium2tests-plugin`
+1. Add `"laravel/dusk": "^2.0"` to your `require-dev` section in `composer.json` file
 1. Go to `/plugins/initbiz/selenium2tests`
 1. Copy `selenium.php.example` to `selenium.php` and configure your environment
 
