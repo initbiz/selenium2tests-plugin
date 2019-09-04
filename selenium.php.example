@@ -1,7 +1,7 @@
 <?php
 
 // Selenium server details
-define('TEST_SELENIUM_HOST', '192.168.10.1');
+define('TEST_SELENIUM_HOST', '127.0.0.1');
 define('TEST_SELENIUM_PORT', 4444);
 
 // Back-end credentials
