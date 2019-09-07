@@ -247,7 +247,9 @@ trait OctoberSeleniumHelpers
         }
         $element = $this->findElement('input.select2-search__field');
         $element->sendKeys($value);
-        $this->findAndClickElement('.select2-results__option.select2-results__option--highlighted');
+        $this->waitFor('.select2-results__option--highlighted');
+        $this->findAndClickElement('.select2-results__option--highlighted');
+        $this->waitForElementNotPresent('.select2-results__option--highlighted');
 
         return $this;
     }

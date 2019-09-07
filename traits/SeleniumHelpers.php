@@ -9,14 +9,16 @@ trait SeleniumHelpers
     public function isElementPresent($target)
     {
         try {
-            $this->findElement($target);
+            $element = $this->findElement($target);
         } catch (\Exception $e) {
             return false;
         }
 
-        $displayed = $this->findElement($target)->isDisplayed();
+        if (is_null($element) || ! $element->isDisplayed()) {
+            return false;
+        }
 
-        return $displayed;
+        return true;
     }
 
 
