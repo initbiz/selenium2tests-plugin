@@ -45,6 +45,4 @@ class ElementResolver extends DuskElementResolver
 
         throw new \Exception('Cannot find element: '.$selector.' isn\'t visible on the page');
     }
-
-
 }

@@ -28,7 +28,7 @@ trait DuskAdapter
 
     public function scroll($pixels)
     {
-        $this->driver->executeScript('window.scrollBy(0, ' . $pixels .');'); 
+        $this->driver->executeScript('window.scrollBy(0, ' . $pixels .');');
         return $this;
     }
 
@@ -50,7 +50,7 @@ trait DuskAdapter
       *
       * @return \PHPUnit_Extensions_Selenium2TestCase_Element[]|NULL
       */
-    public function findElementsOrFail($value, $xpath = null)
+    public function findElementsOrFail($selector, $xpath = null)
     {
         try {
             if (!is_null($xpath)) {
@@ -98,23 +98,23 @@ trait DuskAdapter
     {
         try {
             if (!is_null($xpath)) {
-                $this->driver->executeScript('document.evaluate(' . $xpath . ', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.ScrollIntoView(true);'); 
+                $this->driver->executeScript('document.evaluate(' . $xpath . ', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.ScrollIntoView(true);');
                 return $this;
             }
         } catch (\Exception $e) {
         }
         try {
-            $this->driver->executeScript('document.getElementById("' . $value . '").scrollIntoView(true);'); 
+            $this->driver->executeScript('document.getElementById("' . $value . '").scrollIntoView(true);');
             return $this;
         } catch (\Exception $e) {
         }
         try {
-            $this->driver->executeScript('elements=document.getElementsByName("' . $value . '");elements[0].scrollIntoView(true);'); 
+            $this->driver->executeScript('elements=document.getElementsByName("' . $value . '");elements[0].scrollIntoView(true);');
             return $this;
         } catch (\Exception $e) {
         }
         try {
-            $this->driver->executeScript('elements=document.getElementsByClassName("' . $value . '");elements[0].scrollIntoView(true);'); 
+            $this->driver->executeScript('elements=document.getElementsByClassName("' . $value . '");elements[0].scrollIntoView(true);');
             return $this;
         } catch (\Exception $e) {
         }
@@ -131,7 +131,7 @@ trait DuskAdapter
     {
         $select = new WebDriverSelect($this->findElement($element));
         $select->selectByVisibleText($text);
-        
+
         return $this;
     }
 
