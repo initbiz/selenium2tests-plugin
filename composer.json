@@ -17,5 +17,9 @@
             "name": "Tomasz Strojny",
             "email": "tomasz@init.biz"
         }
-    ]
+    ],
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0"
+    }
 }
