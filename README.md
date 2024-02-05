@@ -1,6 +1,50 @@
 # Selenium 2 Tests - Write tests using Selenium 2 with Dusk support 
-![Selenium 2 Tests banner](https://raw.githubusercontent.com/initbizlab/initbizlab.github.io/master/selenium2tests/assets/images/selenium2tests-banner.png)
+![Selenium 2 Tests banner](https://raw.githubusercontent.com/initbiz/selenium2tests-plugin/master/docs/selenium-2-tests.png)
 
-This is a repo of OctoberCMS plugin by [InIT.biz](https://www.init.biz).
+This is a repo of OctoberCMS plugin by [InIT.biz](https://init.biz).
 
-For full documentation visit [https://docs.init.biz/selenium2tests/](https://docs.init.biz/selenium2tests/) or go to [OctoberCMS's marketplace](https://octobercms.com/plugin/initbiz-selenium2tests).
+## How-to
+### System requirements
+1. Java 8 installed in default location of your platform (for example `/usr/bin/java` for Linux)
+1. The driver of the browser you want to use for tests (for example [ChromeDriver](http://chromedriver.chromium.org/getting-started))
+
+> **Note for Linux users**
+>
+> Installing Chromium from your package manager should install ChromeDriver for you
+
+> **Note for Mac users**
+>
+> You probably will have to link newer version of Java to your default path as described [here](https://stackoverflow.com/a/14875241)
+
+### Installation
+1. You can use three methods to install the plugin:
+  1. from [OctoberCMS Marketplace](https://octobercms.com/plugin/initbiz-selenium2tests),
+  1. clone the code from GitHub into `/plugins/initbiz/selenium2tests` directory or
+  1. install using Composer `composer require --dev initbiz/oc-selenium2tests-plugin`
+1. Add `"laravel/dusk": "^2.0"` to your `require-dev` section in `composer.json` file
+1. Go to `/plugins/initbiz/selenium2tests`
+1. Copy `selenium.php.example` to `selenium.php` and configure your environment
+
+**You can also create `selenium.php` file in your root directory, which will be read when the one in plugin's directory does not exist**
+
+### Testing OctoberCMS basics
+It is a good practice not to use the same DB for testing and developing purposes.
+
+In order to configure a different database for testing purposes create directory `testing` in `config` directory and copy `database.php` to the newly-created directory. Then change the default connection as you wish.
+
+After that, if you use `APP_ENV=testing` in your `.env` file, configuration from the `testing` directory will be used.
+
+## Writing tests in Selenium 2
+There are example tests in `tests/example` directory that use `Ui2TestCase` class.
+
+## Running tests
+First of all, you have to run the Selenium 2 standalone server which is included in the package. In order to start Selenium 2 server go to `<project_root>/plugins/initbiz/selenium2tests` and run `java -jar selenium.jar`.
+
+You are ready to run tests using PHPUnit from OctoberCMS's `vendor/bin/phpunit`.
+
+You can keep test files wherever you want, but `.gitignore` of the plugin will exclude all files from `/tests` except those in `/tests/examples`.
+
+### Browser options (like headless mode)
+If you want to for example run browser in headless mode, you can add that line to your `selenium.php` file:
+
+    define('TEST_SELENIUM_BROWSER_OPTIONS', ['--headless']);
